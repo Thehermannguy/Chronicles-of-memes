@@ -380,6 +380,7 @@ var StockItemTradeScreen = defineObject(BaseScreen,
 		this._pushStockItem(item);
 		
 		this._updateListWindow();
+		this._itemInfoWindow.setInfoItem(this._unitItemWindow.getCurrentItem());
 	},
 	
 	_extractItem: function() {
@@ -394,6 +395,7 @@ var StockItemTradeScreen = defineObject(BaseScreen,
 		this._pushUnitItem(item);
 		
 		this._updateListWindow();
+		this._itemInfoWindow.setInfoItem(this._stockItemWindow.getCurrentItem());
 	},
 	
 	_storeAllItem: function() {
@@ -719,6 +721,7 @@ var CategoryStockItemTradeScreen = defineObject(StockItemTradeScreen,
 		this._pushUnitItem(item);
 		
 		this._updateListWindow();
+		this._itemInfoWindow.setInfoItem(this._stockItemWindow.getCurrentItem());
 	},
 	
 	_updateListWindow: function() {
