@@ -14,7 +14,7 @@ var RANK_SYSTEM = [ ["", 0], ["E", 1], ["D", 31], ["C", 71], ["B", 121], ["A", 1
  * If this variable is true, then all the weapon types will be shown on the weapon ranks window, even the ones the unit cannot use.
  * But if the variable is false, then all the weapon types that the unit can't use will not show up.
  */
-var SHOW_UNUSED_WEAPONS = true;
+var SHOW_UNUSED_WEAPONS = false;
 
 /**
  * This value represent the color of the gauge used by this script.
