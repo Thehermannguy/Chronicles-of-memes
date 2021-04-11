@@ -783,7 +783,7 @@ var StockCategory = defineObject(BaseScrollbar,
 		}
 		
 		if (index !== -1) {
-			this._setNewIndex(index);
+			this._changeNewStockItem(index);
 		}
 		
 		return index;
@@ -796,7 +796,7 @@ var StockCategory = defineObject(BaseScrollbar,
 		if (root.isMouseAction(MouseType.LEFT)) {
 			index = this._getSelectIndex();
 			if (index !== -1) {
-				this._setNewIndex(index);
+				this._changeNewStockItem(index);
 			}
 		}
 		
@@ -826,6 +826,18 @@ var StockCategory = defineObject(BaseScrollbar,
 			else {
 				y += this._getInterval();
 			}
+		}
+	},
+	
+	_changeNewStockItem: function(index) {
+		var itemNew;
+		var itemPrev = this._stockItemWindow.getCurrentItem();
+		
+		this._setNewIndex(index);
+		
+		itemNew = this._stockItemWindow.getCurrentItem();
+		if (itemPrev !== itemNew) {
+			SceneManager.getLastScreen()._itemInfoWindow.setInfoItem(itemNew);
 		}
 	},
 	

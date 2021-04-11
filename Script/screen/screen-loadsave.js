@@ -326,6 +326,11 @@ var LoadSaveScrollbar = defineObject(BaseScrollbar,
 		var x = xBase + 200;
 		var y = yBase + 23;
 		
+		if (this.getCol() === 1 && !DataConfig.isHighResolution()) {
+			x -= 34;
+			y -= 2;
+		}
+		
 		GraphicsRenderer.drawImage(x, y, difficulty.getIconResourceHandle(), GraphicsType.ICON);
 	},
 	
@@ -448,6 +453,7 @@ var LoadSaveScreenEx = defineObject(LoadSaveScreen,
 	},
 	
 	_setLeaderSettings: function(obj) {
+		var handle;
 		var unit = this._getLeaderUnit();
 		
 		if (unit === null) {
@@ -457,7 +463,12 @@ var LoadSaveScreenEx = defineObject(LoadSaveScreen,
 		
 		obj.leaderName = unit.getName();
 		obj.leaderLv = unit.getLv();
-		obj.binary = serializeResourceHandle(unit.getCharChipResourceHandle());
+		
+		handle = unit.getCustomCharChipHandle();
+		if (handle === null) {
+			handle = unit.getCharChipResourceHandle();
+		}
+		obj.binary = serializeResourceHandle(handle);
 	},
 	
 	_setPositionSettings: function(obj) {
