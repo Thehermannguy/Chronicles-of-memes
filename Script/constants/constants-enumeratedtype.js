@@ -941,6 +941,14 @@ var GradientType = {
 
 //----------------------------
 
+var VideoState = {
+	PLAY: 3,
+	PAUSED: 4,
+	STOPPED: 5
+};
+
+//----------------------------
+
 var GraphicsType = {
 	MAPCHIP: 0,
 	CHARCHIP: 1,

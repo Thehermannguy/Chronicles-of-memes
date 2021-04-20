@@ -2277,6 +2277,8 @@ var ScalingBattleContainer = defineObject(BaseBattleContainer,
 	startBattleContainer: function() {
 		this._picCache = root.getGraphicsManager().createCacheGraphics(this._getBattleAreaWidth(), this._getBattleAreaHeight());
 		this._changeMapState(false);
+		// Enlarge all videos being played.
+		root.getVideoManager().emulateFullScreen(true);
 	},
 	
 	pushBattleContainer: function() {
@@ -2294,6 +2296,7 @@ var ScalingBattleContainer = defineObject(BaseBattleContainer,
 	
 	endBattleContainer: function() {
 		this._changeMapState(true);
+		root.getVideoManager().emulateFullScreen(false);
 	},
 	
 	_changeMapState: function(isEnabled) {

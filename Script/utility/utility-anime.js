@@ -92,6 +92,7 @@ var AnimeSimple = defineObject(BaseObject,
 			pic.setAlpha(alpha);
 			pic.setDegree(degree);
 			pic.setReverse(isReverse);
+			pic.setInterpolationMode(this._getWeaponInterpolationMode());
 			
 			if (isShoot) {
 				srcWidth = GraphicsFormat.BOW_WIDTH / 3;
@@ -120,6 +121,11 @@ var AnimeSimple = defineObject(BaseObject,
 		}
 		
 		return true;
+	},
+	
+	_getWeaponInterpolationMode: function() {
+		// If InterpolationMode.NEARESTNEIGHBOR is returned here, the weapon will not be antialiased.
+		return InterpolationMode.BILINEAR;
 	},
 	
 	_isShootAnime: function() {

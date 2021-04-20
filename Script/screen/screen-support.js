@@ -421,6 +421,7 @@ var SupportReciverEntity = defineObject(BaseObject,
 	
 	_moveEvent: function() {
 		if (this._capsuleEvent.moveCapsuleEvent() !== MoveResult.CONTINUE) {
+			this._checkScreenMusic();
 			this._scrollbar.enableSelectCursor(true);
 			this.changeCycleMode(SupportReciverEntityMode.SELECT);
 		}
@@ -506,6 +507,15 @@ var SupportReciverEntity = defineObject(BaseObject,
 	},
 	
 	_doQuestionEndAction: function() {
+	},
+	
+	_checkScreenMusic: function() {
+		var handle = SceneManager.getLastScreen().getScreenMusicHandle();
+		var handleActive = root.getMediaManager().getActiveMusicHandle();
+		
+		if (!handle.isEqualHandle(handleActive)) {
+			MediaControl.musicStop(MusicStopType.BACK);
+		}
 	}
 }
 );

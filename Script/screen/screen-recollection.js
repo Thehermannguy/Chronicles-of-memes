@@ -153,6 +153,7 @@ var RecollectionScreen = defineObject(BaseScreen,
 	
 	_moveEvent: function() {
 		if (this._recollectionEvent.moveRecollectionEvent() !== MoveResult.CONTINUE) {
+			this._checkScreenMusic();
 			this.changeCycleMode(RecollectionMode.TOP);
 		}
 		
@@ -167,6 +168,15 @@ var RecollectionScreen = defineObject(BaseScreen,
 	},
 	
 	_drawEvent: function() {
+	},
+	
+	_checkScreenMusic: function() {
+		var handle = this.getScreenMusicHandle();
+		var handleActive = root.getMediaManager().getActiveMusicHandle();
+		
+		if (!handle.isEqualHandle(handleActive)) {
+			MediaControl.musicStop(MusicStopType.BACK);
+		}
 	}
 }
 );
