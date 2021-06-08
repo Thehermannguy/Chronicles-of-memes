@@ -1179,13 +1179,12 @@ var SecretViewer = defineObject(BaseObject,
 	},
 	
 	_drawCommon: function(obj, index) {
-		var range;
 		var text = StringTable.HideData_Secret;
 		var textui = root.queryTextUI('extraitem_title');
 		var color = textui.getColor();
 		var font = textui.getFont();
+		var range = createRangeObject(0, 0, root.getGameAreaWidth(), root.getGameAreaHeight());
 		
-		range = createRangeObject(0, 0, root.getGameAreaWidth(), root.getGameAreaHeight());
 		TextRenderer.drawRangeText(range, TextFormat.CENTER, text, -1, color, font);
 	}
 }

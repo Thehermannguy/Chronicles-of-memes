@@ -679,7 +679,8 @@ var MapStateType = {
 
 var MusicPlayType = {
 	PLAYSAVE: 0,
-	PLAY: 1
+	PLAY: 1,
+	NOLOOP: 2
 };
 
 var MusicStopType = {

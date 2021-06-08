@@ -143,13 +143,12 @@ var CommunicationScreen = defineObject(BaseScreen,
 	},
 	
 	_drawNoDataText: function(x, y, width, height) {
-		var range;
 		var text = StringTable.Communication_NoData;
 		var textui = this.getWindowTextUI();
 		var color = textui.getColor();
 		var font = textui.getFont();
+		var range = createRangeObject(x, y, width, height);
 		
-		range = createRangeObject(x, y, width, height);
 		TextRenderer.drawRangeText(range, TextFormat.CENTER, text, -1, color, font);
 	},
 	

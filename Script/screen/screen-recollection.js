@@ -12,6 +12,7 @@ var RecollectionScreen = defineObject(BaseScreen,
 	_scrollbar: null,
 	_descriptionChanger: null,
 	_isThumbnailMode: false,
+	_baseMusicHandle: null,
 	
 	setScreenData: function(screenParam) {
 		this._prepareScreenMemberData(screenParam);
@@ -62,6 +63,7 @@ var RecollectionScreen = defineObject(BaseScreen,
 		this._isAutoBackground = false;
 		this._scrollbar = createScrollbarObject(this._isThumbnailMode ? ThumbnailScrollbar : DictionaryScrollbar, this);
 		this._descriptionChanger = createObject(DescriptionChanger);
+		this._baseMusicHandle = root.getMediaManager().getActiveMusicHandle();
 	},
 	
 	_completeScreenMemberData: function(screenParam) {
@@ -171,10 +173,9 @@ var RecollectionScreen = defineObject(BaseScreen,
 	},
 	
 	_checkScreenMusic: function() {
-		var handle = this.getScreenMusicHandle();
 		var handleActive = root.getMediaManager().getActiveMusicHandle();
 		
-		if (!handle.isEqualHandle(handleActive)) {
+		if (!this._baseMusicHandle.isEqualHandle(handleActive)) {
 			MediaControl.musicStop(MusicStopType.BACK);
 		}
 	}

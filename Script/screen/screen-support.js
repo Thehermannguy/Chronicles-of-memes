@@ -317,6 +317,7 @@ var SupportReciverEntity = defineObject(BaseObject,
 	_capsuleEvent: null,
 	_questionWindow: null,
 	_parentWindow: null,
+	_baseMusicHandle:null,
 	
 	setParentData: function(senderUnit, receiver, parentWindow) {
 		this._senderUnit = senderUnit;
@@ -333,6 +334,8 @@ var SupportReciverEntity = defineObject(BaseObject,
 		this._parentWindow = parentWindow;
 		
 		this._capsuleEvent = createObject(CapsuleEvent);
+		
+		this._baseMusicHandle = root.getMediaManager().getActiveMusicHandle();
 	},
 	
 	startReciverEntity: function(isStart) {
@@ -510,10 +513,9 @@ var SupportReciverEntity = defineObject(BaseObject,
 	},
 	
 	_checkScreenMusic: function() {
-		var handle = SceneManager.getLastScreen().getScreenMusicHandle();
 		var handleActive = root.getMediaManager().getActiveMusicHandle();
 		
-		if (!handle.isEqualHandle(handleActive)) {
+		if (!this._baseMusicHandle.isEqualHandle(handleActive)) {
 			MediaControl.musicStop(MusicStopType.BACK);
 		}
 	}

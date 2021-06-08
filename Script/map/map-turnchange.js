@@ -107,7 +107,8 @@ var BaseTurnChange = defineObject(BaseObject,
 var TurnChangeStart = defineObject(BaseTurnChange,
 {
 	doLastAction: function() {
-		this._checkStateTurn();
+		// This method does not reduce the turn of the state.
+		// Because this method is called after the event is executed. 
 	},
 	
 	getStartEndType: function() {
@@ -138,16 +139,7 @@ var TurnChangeStart = defineObject(BaseTurnChange,
 		straightFlow.pushFlowEntry(RecoveryAllFlowEntry);
 		straightFlow.pushFlowEntry(MetamorphozeCancelFlowEntry);
 		straightFlow.pushFlowEntry(BerserkFlowEntry);
-	},
-	
-	_checkStateTurn: function() {
-		var turnType = root.getCurrentSession().getTurnType();
-		
-		if (turnType === TurnType.PLAYER) {
-			StateControl.decreaseTurn(this._getPlayerList());
-			StateControl.decreaseTurn(EnemyList.getAliveList());
-			StateControl.decreaseTurn(AllyList.getAliveList());
-		}
+		straightFlow.pushFlowEntry(StateTurnFlowEntry);
 	},
 	
 	_isTurnAnimeEnabled: function() {
@@ -164,11 +156,6 @@ var TurnChangeStart = defineObject(BaseTurnChange,
 		}
 		
 		return false;
-	},
-	
-	_getPlayerList: function() {
-		// If decrease the turn for the unit who is fused, call PlayerList.getSortieDefaultList.
-		return PlayerList.getSortieList();
 	}
 }
 );
@@ -714,6 +701,35 @@ var BerserkFlowEntry = defineObject(BaseFlowEntry,
 		}
 		
 		return false;
+	}
+}
+);
+
+var StateTurnFlowEntry = defineObject(BaseFlowEntry,
+{
+	enterFlowEntry: function(turnChange) {
+		this._checkStateTurn();
+		return EnterResult.NOTENTER;
+	},
+	
+	_checkStateTurn: function() {
+		var turnType = root.getCurrentSession().getTurnType();
+		
+		if (turnType === TurnType.PLAYER && this._isTurnCountAllowed()) {
+			StateControl.decreaseTurn(this._getPlayerList());
+			StateControl.decreaseTurn(EnemyList.getAliveList());
+			StateControl.decreaseTurn(AllyList.getAliveList());
+		}
+	},
+	
+	_getPlayerList: function() {
+		// If decrease the turn for the unit who is fused, call PlayerList.getSortieDefaultList.
+		return PlayerList.getSortieList();
+	},
+	
+	_isTurnCountAllowed: function() {
+		// If this method returns true, it will be decremented by 1 turn if the turn has already been set in "Map Start". 
+		return root.getCurrentSession().getTurnCount() > 1;
 	}
 }
 );

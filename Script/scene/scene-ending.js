@@ -16,7 +16,7 @@ var EndingScene = defineObject(BaseScene,
 		this._moveCommonAnimation();
 		
 		if (this._straightFlow.moveStraightFlow() !== MoveResult.CONTINUE) {
-			root.resetGame();
+			this._doEndAction();
 			return MoveResult.END;
 		}
 		
@@ -46,6 +46,10 @@ var EndingScene = defineObject(BaseScene,
 	_moveCommonAnimation: function() {
 		MapLayer.moveMapLayer();
 		return MoveResult.CONTINUE;
+	},
+	
+	_doEndAction: function() {
+		root.resetGame();
 	},
 	
 	_pushFlowEntries: function(straightFlow) {

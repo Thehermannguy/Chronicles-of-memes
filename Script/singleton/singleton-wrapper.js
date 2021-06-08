@@ -626,6 +626,10 @@ var MediaControl = {
 		root.getMediaManager().musicPlay(handle, MusicPlayType.PLAY);
 	},
 	
+	musicPlaySingle: function(handle) {
+		root.getMediaManager().musicPlay(handle, MusicPlayType.NOLOOP);
+	},
+	
 	musicStop: function(musicStopType) {
 		root.getMediaManager().musicStop(musicStopType, SpeedType.DIRECT);
 	},

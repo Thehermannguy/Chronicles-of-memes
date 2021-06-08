@@ -216,6 +216,10 @@ var CatchFusionAction = defineObject(BaseFusionAction,
 	
 	skipFusionAction: function() {
 		this._doCatchAction();
+		
+		if (this._slideObject !== null) {
+			this._slideObject.endSlide();
+		}
 	},
 	
 	_doCatchAction: function() {
@@ -332,6 +336,11 @@ var ReleaseFusionAction = defineObject(BaseFusionAction,
 		}
 		else if (type === FusionReleaseType.ERASE) {
 			DamageControl.setReleaseState(this._slideUnit);
+		}
+		
+		if (this._slideObject !== null) {
+			// If the slide value is not initialized in this method, the display position of the unit will be shifted when the user skips.
+			this._slideObject.endSlide();
 		}
 	},
 	

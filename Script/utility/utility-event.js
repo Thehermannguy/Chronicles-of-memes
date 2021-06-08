@@ -276,6 +276,13 @@ var CapsuleEvent = defineObject(BaseObject,
 			event.setExecutedMark(EventExecutedType.EXECUTED);
 		}
 		
+		// startEvent (which executes events) internally identifies which event pages are enabled,
+		// but a similar process is carried out in isEvent, where the result is cached.
+		// It is more efficient to use the cached result from isEvent when startEvent is called immediately after isEvent.
+		// Calling useCachedEventPage not only utilizes the cache, but it also has the following effects.
+		// 1. The cost to identify which event pages are enabled is reduced because it is only calculated once.
+		// 2. If it is calculated two times and the event condition is based on probability,
+		// the first time may succeed but the second time may fail, so this is prevented.
 		event.useCachedEventPage(true);
 		
 		if (isBattle) {

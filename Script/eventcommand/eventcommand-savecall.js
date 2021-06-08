@@ -58,24 +58,33 @@ var SaveCallEventCommand = defineObject(BaseEventCommand,
 	_doCurrentAction: function() {
 		var unit;
 		
-		if (root.getBaseScene() === SceneType.REST) {
+		// The unit can only be in the wait state in the FREE scene.
+		if (root.getBaseScene() !== SceneType.FREE) {
 			return;
 		}
 		
-		if (!root.getCurrentSession().isMapState(MapStateType.PLAYERFREEACTION)) {
-			unit = this._getUnitFromUnitCommand();
-			if (unit !== null) {
-				// If it's executed via unit command, treat the unit as wait.
-				unit.setWait(true);
-			}
+		// If "Infinite Actions" is enabled, the unit will not be in the wait state.
+		if (root.getCurrentSession().isMapState(MapStateType.PLAYERFREEACTION)) {
+			return;
+		}
+		
+		unit = this._getUnitFromUnitCommand();
+		if (unit !== null) {
+			// If a save is performed via a unit command, the unit must be considered as waiting.
+			// If you put the unit in the wait state, the wait state is saved in the save file.
+			unit.setWait(true);
 		}
 	},
 	
 	_getUnitFromUnitCommand: function() {
-		return root.getCurrentSession().getActiveEventUnit();
+		// You should not call root.getCurrentSession().getActiveEventUnit().
+		// When executing an AT event with "Player Turn Start" set, it refers to the last unit that acted on the enemy turn. 
+		return SceneManager.getActiveScene().getTurnObject().getTurnTargetUnit();
 	},
 	
 	_doCompleteAction: function() {
+		// This method notifies the host that the game has been cleared with the save file currently in use.
+		// By calling this method, you can create a save file recorded as cleared in the ending scene.
 		root.getEventCommandObject().setCompleteSaveFlag();
 	},
 	

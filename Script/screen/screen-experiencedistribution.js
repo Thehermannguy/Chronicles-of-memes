@@ -406,15 +406,14 @@ var BonusInputWindow = defineObject(BaseWindow,
 	},
 	
 	_drawNone: function(x, y) {
-		var range;
 		var text = this._getMessage();
 		var textui = this.getWindowTextUI();
 		var color = textui.getColor();
 		var font = textui.getFont();
 		var width = this.getWindowWidth() - (this.getWindowXPadding() * 2);
 		var height = this.getWindowHeight() - (this.getWindowYPadding() * 2);
+		var range = createRangeObject(x, y, width, height);
 		
-		range = createRangeObject(x, y, width, height);
 		TextRenderer.drawRangeText(range, TextFormat.CENTER, text, -1, color, font);
 	},
 	

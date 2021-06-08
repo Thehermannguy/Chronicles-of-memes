@@ -706,13 +706,12 @@ var DifficultyFlowEntry = defineObject(BaseFlowEntry,
 	},
 	
 	_drawTitleArea: function(x, y) {
-		var range;
 		var text = this._getSelectMessage();
 		var textui = this.getWindowTextUI();
 		var color = textui.getColor();
 		var font = textui.getFont();
+		var range = createRangeObject(x - 16, y, this._getWindowWidth(), 23);
 		
-		range = createRangeObject(x - 16, y, this._getWindowWidth(), 23);
 		TextRenderer.drawRangeText(range, TextFormat.CENTER, text, -1, color, font);
 	},
 	
@@ -751,13 +750,12 @@ var DifficultyFlowEntry = defineObject(BaseFlowEntry,
 var DifficultyScrollbar = defineObject(BaseScrollbar,
 {
 	drawScrollContent: function(x, y, object, isSelect, index) {
-		var range;
 		var length = this._getTextLength();
 		var textui = this.getParentTextUI();
 		var color = ColorValue.KEYWORD;
 		var font = textui.getFont();
+		var range = createRangeObject(x, y, length, this.getObjectHeight());
 		
-		range = createRangeObject(x, y, length, this.getObjectHeight());
 		this._drawRange(range, isSelect, index);
 		TextRenderer.drawRangeText(range, TextFormat.CENTER, object.getName(), length, color, font);
 	},
