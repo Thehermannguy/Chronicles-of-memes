@@ -1561,8 +1561,9 @@ var EnemyOffsetControl = {
 	
 	_isOffsetAction: function(motion) {
 		var realBattle = AttackControl.getBattleObject();
+		var order = realBattle.getAttackOrder();
 		
-		return motion.isEnemyOffsetFrame() && realBattle.getAttackOrder().isCurrentHit() && root.getAnimePreference().isEnemyOffsetEnabled();
+		return root.getAnimePreference().isEnemyOffsetEnabled() && motion.isEnemyOffsetFrame() && order.isCurrentHit() && order.getPassiveDamage() !== 0;
 	}
 };
 

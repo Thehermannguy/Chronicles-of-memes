@@ -919,7 +919,7 @@ var UnitWaitFlowEntry = defineObject(BaseFlowEntry,
 	_getWaitEvent: function(unit) {
 		var event = PosChecker.getPlaceEventFromUnit(PlaceEventType.WAIT, unit);
 		
-		if (event !== null && event.isEvent() && event.getExecutedMark() === EventExecutedType.FREE) {
+		if (event !== null && event.getExecutedMark() === EventExecutedType.FREE && event.isEvent()) {
 			return event;
 		}
 		

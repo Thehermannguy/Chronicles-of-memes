@@ -126,28 +126,43 @@ var UnitAllCommandEventCommand = defineObject(BaseEventCommand,
 			}
 		}
 		
-		this._appendGuestUnit(filter, eventCommandData);
+		// If root.getCurrentSession().joinGuestUnit is not called, the guest unit has not been added to root.getMetaSession().GetTotalPlayerList.
+		// In this case, the guest unit is intentionally added as the target of the event command.
+		// This process is necessary when you want to include guest units in the target in the communication event of the battle prep scene.
+		if (this._isGuestListAllowed(filter)) {
+			this._appendGuestUnit(filter, eventCommandData);
+		}
 	},
 	
 	_appendGuestUnit: function(filter, eventCommandData) {
-		var i, count, list, targetUnit;
+		var i, targetUnit;
+		var list = root.getCurrentSession().getNonJoinedGuestList();
+		var count = list.getCount();
 		
-		if (!(filter & UnitFilterFlag.PLAYER)) {
-			return;
-		}
-		
-		if (root.getBaseScene() !== SceneType.BATTLESETUP) {
-			return;
-		}
-		
-		list = root.getCurrentSession().getNonJoinedGuestList();
-		count = list.getCount();
 		for (i = 0; i < count; i++) {
 			targetUnit = list.getData(i);
 			if (eventCommandData.isDataCondition(targetUnit)) {
 				this._unitArray.push(targetUnit);
 			}
 		}
+	},
+	
+	_isGuestListAllowed: function(filter) {
+		if (!(filter & UnitFilterFlag.PLAYER)) {
+			return false;
+		}
+		
+		// If the current scene is not a battle prep scene, the guest unit has already been added to the player list.
+		if (root.getBaseScene() !== SceneType.BATTLESETUP) {
+			return false;
+		}
+		
+		// The guest unit has already been added to the player list by the time you select the Fight command and the Player Phase logo appears.
+		if (root.getCurrentSession().getStartEndType() == StartEndType.MAP_START) {
+			return false;
+		}
+		
+		return true;
 	},
 	
 	_setPosUnitArray: function() {

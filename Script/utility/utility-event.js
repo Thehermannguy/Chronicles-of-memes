@@ -104,7 +104,7 @@ var EventChecker = defineObject(BaseObject,
 			this._eventIndex++;
 			event = this._eventArray[i];
 			
-			if (event !== null && event.isEvent() && event.getExecutedMark() === EventExecutedType.FREE) {
+			if (event !== null && event.getExecutedMark() === EventExecutedType.FREE && event.isEvent()) {
 				if (this._isAllSkipEnabled) {
 					root.setEventSkipMode(true);
 				}
@@ -275,6 +275,8 @@ var CapsuleEvent = defineObject(BaseObject,
 			// With this calling, the event is executed.
 			event.setExecutedMark(EventExecutedType.EXECUTED);
 		}
+		
+		event.useCachedEventPage(true);
 		
 		if (isBattle) {
 			event.startBattleEvent(this._battleUnit);

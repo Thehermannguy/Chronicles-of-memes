@@ -160,7 +160,7 @@ var UnitCommand = defineObject(BaseListCommandManager,
 					}
 				}
 				
-				if (isEqual && event.isEvent() && event.getExecutedMark() === EventExecutedType.FREE) {
+				if (isEqual && event.getExecutedMark() === EventExecutedType.FREE && event.isEvent()) {
 					text = talkInfo.getCommandText();
 					if (textArray.indexOf(text) !== -1) {
 						continue;
@@ -406,7 +406,7 @@ UnitCommand.PlaceCommand = defineObject(UnitListCommand,
 	isCommandDisplayable: function() {
 		var event = this._getEvent();
 		
-		return event !== null && event.isEvent() && event.getExecutedMark() === EventExecutedType.FREE && event.getPlaceEventInfo().getPlaceCustomType() === PlaceCustomType.COMMAND;
+		return event !== null && event.getPlaceEventInfo().getPlaceCustomType() === PlaceCustomType.COMMAND && event.getExecutedMark() === EventExecutedType.FREE && event.isEvent();
 	},
 	
 	getCommandName: function() {
@@ -595,7 +595,7 @@ UnitCommand.Talk = defineObject(UnitListCommand,
 			}
 			
 			if (isEqual && talkInfo.getCommandText() === this._text) {
-				if (event.isEvent() && event.getExecutedMark() === EventExecutedType.FREE) {
+				if (event.getExecutedMark() === EventExecutedType.FREE && event.isEvent()) {
 					return event;
 				}
 			}
@@ -1099,7 +1099,7 @@ UnitCommand.Occupation = defineObject(UnitListCommand,
 
 		event = this._getEvent();
 		
-		return event !== null && event.isEvent() && event.getExecutedMark() === EventExecutedType.FREE;
+		return event !== null && event.getExecutedMark() === EventExecutedType.FREE && event.isEvent();
 	},
 	
 	getCommandName: function() {
@@ -1154,7 +1154,7 @@ UnitCommand.Village = defineObject(UnitListCommand,
 	isCommandDisplayable: function() {
 		var event = this._getEvent();
 		
-		return event !== null && event.isEvent() && event.getExecutedMark() === EventExecutedType.FREE;
+		return event !== null && event.getExecutedMark() === EventExecutedType.FREE && event.isEvent();
 	},
 	
 	getCommandName: function() {
@@ -1264,7 +1264,7 @@ UnitCommand.Shop = defineObject(UnitListCommand,
 	isCommandDisplayable: function() { 
 		var event = this._getEvent();
 		
-		return event !== null && event.isEvent() && Miscellaneous.isItemAccess(this.getCommandTarget());
+		return event !== null && Miscellaneous.isItemAccess(this.getCommandTarget()) && event.isEvent();
 	},
 	
 	getCommandName: function() {
@@ -2075,7 +2075,7 @@ UnitCommand.Trade = defineObject(UnitListCommand,
 		var result = this._posSelector.movePosSelector();
 		
 		if (result === PosSelectorResult.SELECT) {
-			if (this._isPosSelectable()) {
+			if (this._isPosSelectable() && this._isTargetEnabled()) {
 				this._posSelector.endPosSelector();
 				
 				screenParam = this._createScreenParam();
@@ -2180,6 +2180,18 @@ UnitCommand.Trade = defineObject(UnitListCommand,
 		var unit = this._posSelector.getSelectorTarget(true);
 		
 		return unit !== null && Miscellaneous.isItemAccess(unit);
+	},
+	
+	_isTargetEnabled: function() {
+		var unit = this.getCommandTarget();
+		var child = FusionControl.getFusionChild(unit);
+		
+		// If the target for trading items is a fused unit, check if the fusion data allows item trading.
+		if (child === this._posSelector.getSelectorTarget(true) && !FusionControl.isItemTradable(unit)) {
+			return false;
+		}
+		
+		return true;
 	},
 	
 	_getUnitFilter: function() {

@@ -447,7 +447,7 @@ var PosChecker = {
 			placeInfo = event.getPlaceEventInfo();
 			if (placeInfo.getPlaceEventType() === type) {
 				if (placeInfo.getX() === x && placeInfo.getY() === y) {
-					if (event.isEvent() && event.getExecutedMark() === EventExecutedType.FREE) {
+					if (event.getExecutedMark() === EventExecutedType.FREE && event.isEvent()) {
 						return event;
 					}
 				}
@@ -733,13 +733,13 @@ var KeyEventChecker = {
 			placeInfo = event.getPlaceEventInfo();
 			
 			if (isTreasure && placeInfo.getPlaceEventType() === PlaceEventType.TREASURE) {
-				if (event.isEvent() && event.getExecutedMark() === EventExecutedType.FREE) {
+				if (event.getExecutedMark() === EventExecutedType.FREE && event.isEvent()) {
 					indexArrayNew.push(CurrentMap.getIndex(placeInfo.getX(), placeInfo.getY()));
 				}
 			}
 			
 			if (isGate && placeInfo.getPlaceEventType() === PlaceEventType.GATE) {
-				if (event.isEvent() && event.getExecutedMark() === EventExecutedType.FREE) {
+				if (event.getExecutedMark() === EventExecutedType.FREE && event.isEvent()) {
 					indexArrayNew.push(CurrentMap.getIndex(placeInfo.getX(), placeInfo.getY()));
 				}
 			}

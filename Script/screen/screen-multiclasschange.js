@@ -455,6 +455,7 @@ var MultiClassInfoWindow = defineObject(BaseWindow,
 		}
 		
 		this._skillInteraction.setSkillArray(arr);
+		this._skillInteraction.checkInitialTopic();
 	},
 	
 	_drawClassGraphics: function(x, y) {

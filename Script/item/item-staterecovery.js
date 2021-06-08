@@ -66,15 +66,25 @@ var StateRecoveryItemUse = defineObject(BaseItemUse,
 
 var StateRecoveryItemInfo = defineObject(BaseItemInfo,
 {
+	_stateCount: 0,
+	
+	setInfoItem: function(item) {
+		this._stateCount = ItemInfoRenderer.getStateCount(item.getStateRecoveryInfo().getStateGroup());
+		BaseItemInfo.setInfoItem.call(this, item);
+	},
+	
 	drawItemInfoCycle: function(x, y) {
 		ItemInfoRenderer.drawKeyword(x, y, this.getItemTypeName(StringTable.ItemInfo_StateRecovery));
 		y += ItemInfoRenderer.getSpaceY();
 		
 		ItemInfoRenderer.drawState(x, y, this._item.getStateRecoveryInfo().getStateGroup(), true);
+		
+		y += ItemInfoRenderer.getSpaceY() * this._stateCount;
+		this.drawRange(x, y, this._item.getRangeValue(), this._item.getRangeType());
 	},
 	
 	getInfoPartsCount: function() {
-		return 1 + ItemInfoRenderer.getStateCount(this._item.getStateRecoveryInfo().getStateGroup());
+		return 2 + this._stateCount;
 	}
 }
 );

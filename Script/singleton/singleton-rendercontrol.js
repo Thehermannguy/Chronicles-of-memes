@@ -949,7 +949,10 @@ var NumberRenderer = {
 	drawAttackNumberCenter: function(x, y, number) {
 		var dx;
 		
-		if (number >= 1000) {
+		if (number >= 10000) {
+			dx = 38;
+		}
+		else if (number >= 1000) {
 			dx = 32;
 		}
 		else if (number >= 100) {
