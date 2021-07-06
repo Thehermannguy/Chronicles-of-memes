@@ -34,7 +34,8 @@
 			}
 		}
 		
-		return avoid -20;
+		return avoid -20 ;
+		//If you want to get hit more, "return avoid -20 ;"
     }
     
     //Crit rate: weapon + Skill/2
