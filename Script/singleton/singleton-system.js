@@ -1860,7 +1860,7 @@ var Miscellaneous = {
 		var realEffect;
 		var frameIndex = 0;
 		
-		if (typeof effectAnimeData._motion !== 'undefined') {
+		if (effectAnimeData !== null && typeof effectAnimeData._motion !== 'undefined') {
 			realEffect = effectAnimeData;
 			frameIndex = realEffect.getAnimeMotion().getFrameIndex();
 			effectAnimeData = realEffect.getAnimeMotion().getAnimeData();

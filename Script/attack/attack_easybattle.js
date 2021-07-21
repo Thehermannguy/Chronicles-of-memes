@@ -590,6 +590,9 @@ var EasyMapUnit = defineObject(BaseObject,
 	_easyBattle: null,
 	_attackEffect: null,
 	
+	_xScrollPrev: 0,
+	_yScrollPrev: 0,
+	
 	setupEasyBattler: function(unit, isSrc, easyBattle) {
 		this._unit = unit;
 		this._isSrc = isSrc;
@@ -599,6 +602,9 @@ var EasyMapUnit = defineObject(BaseObject,
 		this._alpha = 255;
 		this._unitCounter = createObject(UnitCounter);
 		this._easyBattle = easyBattle;
+		
+		this._xScrollPrev = root.getCurrentSession().getScrollPixelX();
+		this._yScrollPrev = root.getCurrentSession().getScrollPixelY();
 		
 		this.changeCycleMode(MapUnitMode.NONE);
 	},

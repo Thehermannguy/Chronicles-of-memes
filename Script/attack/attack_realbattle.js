@@ -1822,7 +1822,7 @@ var UIBattleLayout = defineObject(BaseObject,
 		for (i = 0; i < count; i++) {
 			effect = effectArray[i];
 			motion = effect.getAnimeMotion();
-			if (motion !== null && motion.getBackgroundAnimeRangeType() === rangeType) {
+			if (motion !== null && motion.getScreenEffectRangeType() === rangeType) {
 				motion.drawScreenColor();
 			}
 		}
