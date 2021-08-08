@@ -34,7 +34,7 @@
 			}
 		}
 		
-		return avoid -20 ;
+		return avoid ;
 		//If you want to get hit more, "return avoid -20 ;"
     }
     
