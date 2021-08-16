@@ -470,9 +470,11 @@ var Calculator = {
 		var limitMax = item.getLimitMax();
 		
 		if (limitMax === 0) {
+			// Weapons that can be used infinitely (durability of 0) can be sold for half the purchasing cost.
 			d = 1;
 		}
 		else if (limitMax === WeaponLimitValue.BROKEN) {
+			// Broken weapons can only be sold for 0 gold.
 			d = 0;
 		}
 		else {
@@ -662,8 +664,16 @@ var SupportCalculator = {
 	},
 	
 	_getListArray: function(unit) {
-		var listArray;
-		var filter = 0;
+		var filter = this._getSupportFilterFlag(unit);
+		var listArray = FilterControl.getListArray(filter);
+		
+		this._appendGuestList(listArray, filter);
+		
+		return listArray;
+	},
+	
+	_getSupportFilterFlag: function(unit) {
+		var filter;
 		var unitType = unit.getUnitType();
 		
 		if (unitType === UnitType.PLAYER) {
@@ -678,10 +688,7 @@ var SupportCalculator = {
 			// filter = UnitFilterFlag.PLAYER | UnitFilterFlag.ALLY;
 		}
 		
-		listArray = FilterControl.getListArray(filter);
-		this._appendGuestList(listArray, filter);
-		
-		return listArray;
+		return filter;
 	},
 	
 	_appendGuestList: function(listArray, filter) {
