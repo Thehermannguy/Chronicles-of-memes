@@ -789,14 +789,28 @@ UnitCommand.Steal = defineObject(UnitListCommand,
 			x = unit.getMapX() + XPoint[i];
 			y = unit.getMapY() + YPoint[i];
 			targetUnit = PosChecker.getUnitFromPos(x, y);
-			if (targetUnit !== null && targetUnit.getUnitType() === UnitType.ENEMY) {
-				if (Miscellaneous.isStealEnabled(unit, targetUnit, skill.getSkillValue())) {
-					indexArray.push(CurrentMap.getIndex(x, y));
-				}
+			if (targetUnit !== null && this._isTargetAllowed(targetUnit, unit, skill)) {
+				indexArray.push(CurrentMap.getIndex(x, y));
 			}
 		}
 		
 		return indexArray;
+	},
+	
+	_isTargetAllowed: function(targetUnit, unit, skill) {
+		if (targetUnit.getUnitType() !== UnitType.ENEMY) {
+			return false;
+		}
+		
+		if (!Miscellaneous.isStealEnabled(unit, targetUnit, skill.getSkillValue())) {
+			return false;
+		}
+		
+		if (!skill.getTargetAggregation().isCondition(targetUnit)) {
+			return false;
+		}
+		
+		return true;
 	},
 	
 	_isPosSelectable: function() {
@@ -1029,10 +1043,11 @@ UnitCommand.Quick = defineObject(UnitListCommand,
 	},
 	
 	_getTradeArray: function(unit) {
-		var i, x, y, targetUnit;
+		var i, x, y, targetUnit, skill;
 		var indexArray = [];
 		
-		if (SkillControl.getPossessionSkill(unit, SkillType.QUICK) === null) {
+		skill = SkillControl.getBestPossessionSkill(unit, SkillType.QUICK);
+		if (skill === null) {
 			return indexArray;
 		}
 		
@@ -1040,14 +1055,28 @@ UnitCommand.Quick = defineObject(UnitListCommand,
 			x = unit.getMapX() + XPoint[i];
 			y = unit.getMapY() + YPoint[i];
 			targetUnit = PosChecker.getUnitFromPos(x, y);
-			if (targetUnit !== null && unit.getUnitType() === targetUnit.getUnitType()) {
-				if (targetUnit.isWait()) {
-					indexArray.push(CurrentMap.getIndex(x, y));
-				}
+			if (targetUnit !== null && this._isTargetAllowed(targetUnit, unit, skill)) {
+				indexArray.push(CurrentMap.getIndex(x, y));
 			}
 		}
 		
 		return indexArray;
+	},
+	
+	_isTargetAllowed: function(targetUnit, unit, skill) {
+		if (!targetUnit.isWait()) {
+			return false;
+		}
+		
+		if (targetUnit.getUnitType() !== unit.getUnitType()) {
+			return false;
+		}
+		
+		if (!skill.getTargetAggregation().isCondition(targetUnit)) {
+			return false;
+		}
+		
+		return true;
 	},
 	
 	_isPosSelectable: function() {

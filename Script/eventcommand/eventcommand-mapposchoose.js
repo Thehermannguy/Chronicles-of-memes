@@ -57,7 +57,7 @@ var MapPosChooseEventCommand = defineObject(BaseEventCommand,
 	_prepareEventCommandMemberData: function() {
 		var eventCommandData = root.getEventCommandObject();
 		
-		this._posSelector = createObject(PosSelector);
+		this._posSelector = this._createPosSelector();
 		this._questionWindow = createWindowObject(QuestionWindow, this);
 		this._targetUnit = eventCommandData.getTargetUnit();
 		this._isUnitOnlyMode = eventCommandData.isUnitOnlyMode();
@@ -81,6 +81,10 @@ var MapPosChooseEventCommand = defineObject(BaseEventCommand,
 		this.changeCycleMode(MapPosChooseMode.SELECT);
 		
 		return EnterResult.OK;
+	},
+	
+	_createPosSelector: function() {
+		return createObject(PosSelector);
 	},
 	
 	_createPositionIndexData: function() {

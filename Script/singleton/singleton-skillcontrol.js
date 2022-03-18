@@ -489,7 +489,7 @@ var SkillChecker = {
 	
 	addNewSkill: function(unit, newSkill) {
 		// Check if it reaches the level to learn the skill.
-		if (unit.getLv() < newSkill.getLv()) {
+		if (this._isLevelDisabled(unit, newSkill)) {
 			return false;
 		}
 		
@@ -520,6 +520,10 @@ var SkillChecker = {
 		var list = unit.getSkillReferenceList();
 		
 		root.getDataEditor().changeSkillData(list, newSkill.getSkill(), newSkill.getOldSkill());
+	},
+	
+	_isLevelDisabled: function(unit, newSkill) {
+		return unit.getLv() < newSkill.getLv();
 	},
 	
 	_isSkillLearned: function(unit, skill) {

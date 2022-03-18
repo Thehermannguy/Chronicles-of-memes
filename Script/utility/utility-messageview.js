@@ -481,19 +481,9 @@ var FaceView = defineObject(BaseObject,
 			isBottomActive = this._activePos === MessagePos.BOTTOM;
 		}
 		
-		if (this._topView !== null) {
-			this._topView.drawCharIllust(isTopActive);
-		}
+		this._drawFaceViewCharIllust(isTopActive, isCenterActive, isBottomActive);
 		
-		if (this._centerView !== null) {
-			this._centerView.drawCharIllust(isCenterActive);
-		}
-		
-		if (this._bottomView !== null) {
-			this._bottomView.drawCharIllust(isBottomActive);
-		}
-		
-		if (root.isMessageWindowFixed()) {
+		if (this._isMessageWindowFixed()) {
 			if (this._activePos === MessagePos.TOP) {
 				view = this._topView;
 				isActive = isTopActive;
@@ -554,6 +544,24 @@ var FaceView = defineObject(BaseObject,
 		}
 		
 		this._activePos = MessagePos.NONE;
+	},
+	
+	_drawFaceViewCharIllust: function(isTopActive, isCenterActive, isBottomActive) {
+		if (this._topView !== null) {
+			this._topView.drawCharIllust(isTopActive);
+		}
+		
+		if (this._centerView !== null) {
+			this._centerView.drawCharIllust(isCenterActive);
+		}
+		
+		if (this._bottomView !== null) {
+			this._bottomView.drawCharIllust(isBottomActive);
+		}
+	},
+	
+	_isMessageWindowFixed: function() {
+		return root.isMessageWindowFixed();
 	}
 }
 );

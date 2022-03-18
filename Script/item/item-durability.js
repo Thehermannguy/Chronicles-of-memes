@@ -112,9 +112,25 @@ var DurabilityChangeType = {
 var DurabilityChangeItemUse = defineObject(BaseItemUse,
 {
 	enterMainUseCycle: function(itemUseParent) {
-		var durability, generator;
-		var increaseType = IncreaseType.ASSIGNMENT;
+		var generator;
 		var itemTargetInfo = itemUseParent.getItemTargetInfo();
+		
+		this._dynamicEvent = createObject(DynamicEvent);
+		generator = this._dynamicEvent.acquireEventGenerator();
+		generator.itemDurabilityChange(itemTargetInfo.targetUnit, itemTargetInfo.targetItem, this._getDurability(itemTargetInfo), this._getIncreaseType(itemTargetInfo), itemUseParent.isItemSkipMode());
+		
+		return this._dynamicEvent.executeDynamicEvent();
+	},
+	
+	moveMainUseCycle: function() {
+		return this._dynamicEvent.moveDynamicEvent();
+	},
+	
+	getItemAnimePos: function(itemUseParent, animeData) {
+		return this.getUnitBasePos(itemUseParent, animeData);
+	},
+	
+	_getDurability: function(itemTargetInfo) {
 		var type = itemTargetInfo.item.getDurabilityInfo().getDurabilityChangeType();
 		
 		if (type === DurabilityChangeType.MAXRECOVERY) {
@@ -127,19 +143,11 @@ var DurabilityChangeItemUse = defineObject(BaseItemUse,
 			durability = -1;
 		}
 		
-		this._dynamicEvent = createObject(DynamicEvent);
-		generator = this._dynamicEvent.acquireEventGenerator();
-		generator.itemDurabilityChange(itemTargetInfo.targetUnit, itemTargetInfo.targetItem, durability, increaseType, itemUseParent.isItemSkipMode());
-		
-		return this._dynamicEvent.executeDynamicEvent();
+		return durability;
 	},
 	
-	moveMainUseCycle: function() {
-		return this._dynamicEvent.moveDynamicEvent();
-	},
-	
-	getItemAnimePos: function(itemUseParent, animeData) {
-		return this.getUnitBasePos(itemUseParent, animeData);
+	_getIncreaseType: function(itemTargetInfo) {
+		return IncreaseType.ASSIGNMENT;
 	}
 }
 );

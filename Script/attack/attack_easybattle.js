@@ -502,7 +502,7 @@ var EasyAttackWindow = defineObject(BaseWindow,
 		this._isAnimation = true;
 	},
 	
-	moveWindowContent: function() {		
+	moveWindowContent: function() {
 		if (this._isAnimation) {
 			if (this._gaugeBar.moveGaugeBar() !== MoveResult.CONTINUE) {
 				this._isAnimation = false;

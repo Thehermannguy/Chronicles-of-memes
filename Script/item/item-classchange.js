@@ -73,10 +73,10 @@ var ClassChangeItemUse = defineObject(BaseItemUse,
 	mainAction: function() {
 		var itemTargetInfo = this._itemUseParent.getItemTargetInfo();
 		
-		if (itemTargetInfo.item.getClassChangeInfo().isLevelReset()) {
-			itemTargetInfo.unit.setLv(1);
+		if (this._isLevelReset(itemTargetInfo)) {
+			this._resetLevel(itemTargetInfo);
 			if (this._isExpReset()) {
-				itemTargetInfo.unit.setExp(0);
+				this._resetExp(itemTargetInfo);
 			}
 		}
 	},
@@ -89,8 +89,20 @@ var ClassChangeItemUse = defineObject(BaseItemUse,
 		return true;
 	},
 	
+	_isLevelReset: function(itemTargetInfo) {
+		return itemTargetInfo.item.getClassChangeInfo().isLevelReset();
+	},
+	
+	_resetLevel: function(itemTargetInfo) {
+		itemTargetInfo.unit.setLv(1);
+	},
+	
 	_isExpReset: function() {
 		return true;
+	},
+	
+	_resetExp: function(itemTargetInfo) {
+		itemTargetInfo.unit.setExp(0);
 	}
 }
 );
