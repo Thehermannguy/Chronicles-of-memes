@@ -203,7 +203,7 @@ var UnitSortieScreen = defineObject(BaseScreen,
 		var font = textui.getFont();
 		var digitWidth = DefineControl.getNumberSpace();
 		var count = SceneManager.getActiveScene().getSortieSetting().getSortieCount();
-		var maxCount = root.getCurrentSession().getCurrentMapInfo().getSortieMaxCount();
+		var maxCount = SceneManager.getActiveScene().getSortieSetting().getDefaultSortieMaxCount();
 		
 		NumberRenderer.drawNumberColor(x, y, count, 1, 255);
 		
@@ -328,7 +328,7 @@ var UnitSortieListScrollbar = defineObject(BaseScrollbar,
 		else if (!this._isSortie(object)) {
 			isSelect = false;
 		}
-		else if (SceneManager.getActiveScene().getSortieSetting().getSortieCount() === root.getCurrentSession().getCurrentMapInfo().getSortieMaxCount()) {
+		else if (SceneManager.getActiveScene().getSortieSetting().getSortieCount() === SceneManager.getActiveScene().getSortieSetting().getDefaultSortieMaxCount()) {
 			if (object.getSortieState() === SortieType.SORTIE) {
 				isSelect = true;
 			}

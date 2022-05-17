@@ -673,6 +673,10 @@ var SupportReciverBuilder = {
 			unit2 = info.getSecondUnit();
 			rank = info.getRank();
 			
+			if (unit1 === null || unit2 === null) {
+				continue;
+			}
+			
 			receiver = this._getReciver(unit1, unit2, receiverArray);
 			if (receiver !== null) {
 				// The receiver, which has used both unit1 and unit2, has already been created, so update only rank and event.

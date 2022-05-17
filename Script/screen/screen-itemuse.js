@@ -42,6 +42,7 @@ var ItemUseScreen = defineObject(BaseScreen,
 		}
 		
 		this._itemUserWindow.moveWindow();
+		this._itemInfoWindow.moveWindow();
 		
 		return result;
 	},

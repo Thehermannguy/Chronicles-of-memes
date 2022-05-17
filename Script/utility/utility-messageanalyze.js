@@ -1502,6 +1502,11 @@ var VariableReplacer = defineObject(BaseObject,
 		groupArray.appendObject(DataVariable.Va4);
 		groupArray.appendObject(DataVariable.Va5);
 		groupArray.appendObject(DataVariable.Va6);
+		groupArray.appendObject(DataVariable.VPdb);
+		groupArray.appendObject(DataVariable.VCdb);
+		groupArray.appendObject(DataVariable.VWdb);
+		groupArray.appendObject(DataVariable.VIdb);
+		groupArray.appendObject(DataVariable.VSdb);
 	}
 }
 );
@@ -1776,6 +1781,91 @@ DataVariable.Va6 = defineObject(BaseDataVariable,
 	
 	getKey: function() {
 		var key = /\\va6\[(\d+)\]/;
+		
+		return key;
+	}
+}
+);
+
+var BaseDataVariable2 = defineObject(BaseDataVariable,
+{
+	getIdFromKey: function(text) {
+		var key = this.getKey();
+		var c = text.match(key);
+		var v_tab = Number(c[1]);
+		var v_id = Number(c[2]);
+		var table = root.getMetaSession().getVariableTable(v_tab - 1);
+		var index = table.getVariableIndexFromId(v_id);
+		
+		return table.getVariable(index);
+	}
+}
+);
+
+DataVariable.VPdb = defineObject(BaseDataVariable2,
+{
+	getList: function() {
+		return root.getBaseData().getPlayerList();
+	},
+	
+	getKey: function() {
+		var key = /\\vpdb(\d{1})\[(\d+)\]/;
+		
+		return key;
+	}
+}
+);
+
+DataVariable.VCdb = defineObject(BaseDataVariable2,
+{
+	getList: function() {
+		return root.getBaseData().getClassList();
+	},
+	
+	getKey: function() {
+		var key = /\\vcdb(\d{1})\[(\d+)\]/;
+		
+		return key;
+	}
+}
+);
+
+DataVariable.VWdb = defineObject(BaseDataVariable2,
+{
+	getList: function() {
+		return root.getBaseData().getWeaponList();
+	},
+	
+	getKey: function() {
+		var key = /\\vwdb(\d{1})\[(\d+)\]/;
+		
+		return key;
+	}
+}
+);
+
+DataVariable.VIdb = defineObject(BaseDataVariable2,
+{
+	getList: function() {
+		return root.getBaseData().getItemList();
+	},
+	
+	getKey: function() {
+		var key = /\\vidb(\d{1})\[(\d+)\]/;
+		
+		return key;
+	}
+}
+);
+
+DataVariable.VSdb = defineObject(BaseDataVariable2,
+{
+	getList: function() {
+		return root.getBaseData().getSkillList();
+	},
+	
+	getKey: function() {
+		var key = /\\vsdb(\d{1})\[(\d+)\]/;
 		
 		return key;
 	}

@@ -234,6 +234,8 @@ var DurabilitySelectManager = defineObject(BaseWindowManager,
 			this._itemInfoWindow.setInfoItem(this._itemListWindow.getCurrentItem());
 		}
 		
+		this._itemInfoWindow.moveWindow();
+		
 		return MoveResult.CONTINUE;
 	},
 	

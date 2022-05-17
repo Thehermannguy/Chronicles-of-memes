@@ -172,7 +172,7 @@ var CatchFusionAction = defineObject(BaseFusionAction,
 		this._parentUnit = fusionParam.parentUnit;
 		this._fusionData = fusionParam.fusionData;
 		this._slideUnit = fusionParam.targetUnit;
-		if (this._fusionData === null || this._slideUnit === null) {
+		if (this._isFusionParamDisabled()) {
 			return false;
 		}
 		
@@ -300,6 +300,10 @@ var CatchFusionAction = defineObject(BaseFusionAction,
 	
 	_isForceCatch: function() {
 		return true;
+	},
+	
+	_isFusionParamDisabled: function() {
+		return this._fusionData === null || this._slideUnit === null || this._slideUnit.getAliveState() !== AliveType.ALIVE;
 	}
 }
 );

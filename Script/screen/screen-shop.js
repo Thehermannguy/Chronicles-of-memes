@@ -434,6 +434,7 @@ var ShopLayoutScreen = defineObject(BaseScreen,
 	
 	_moveAnimation: function() {	
 		this._currencyWindow.moveWindow();
+		this._itemInfoWindow.moveWindow();
 		return MoveResult.CONTINUE;
 	},
 	

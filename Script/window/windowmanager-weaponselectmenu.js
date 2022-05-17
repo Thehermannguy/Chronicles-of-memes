@@ -22,6 +22,8 @@ var WeaponSelectMenu = defineObject(BaseWindowManager,
 			this._itemInfoWindow.setInfoItem(this._itemListWindow.getCurrentItem());
 		}
 		
+		this._itemInfoWindow.moveWindow();
+		
 		return result;
 	},
 	
@@ -155,6 +157,8 @@ var WandSelectMenu = defineObject(BaseWindowManager,
 		if (this._itemListWindow.isIndexChanged()) {
 			this._itemInfoWindow.setInfoItem(this._itemListWindow.getCurrentItem());
 		}
+		
+		this._itemInfoWindow.moveWindow();
 		
 		return result;
 	},

@@ -347,18 +347,6 @@ UnitParameter.SPD = defineObject(BaseUnitParameter,
 }
 );
 
-UnitParameter.SKI = defineObject(BaseUnitParameter,
-{
-	getParameterType: function() {
-		return ParamType.SKI;
-	},
-	
-	getSignal: function() {
-		return 'ski';
-	}
-}
-);
-
 UnitParameter.LUK = defineObject(BaseUnitParameter,
 {
 	getParameterType: function() {

@@ -128,7 +128,7 @@ var BonusChangeNoticeView = defineObject(BaseNoticeView,
 	
 	_moveWait: function() {
 		if (this._counter.moveCycleCounter() !== MoveResult.CONTINUE) {
-			this.changeCycleMode(GoldNoticeMode.COUNT);
+			this.changeCycleMode(BonusNoticeMode.COUNT);
 		}
 		
 		return MoveResult.CONTINUE;
@@ -137,7 +137,7 @@ var BonusChangeNoticeView = defineObject(BaseNoticeView,
 	_moveCount: function() {
 		if (this._balancer.moveBalancer() !== MoveResult.CONTINUE) {
 			this._playBonusChangeSound();
-			this.changeCycleMode(GoldNoticeMode.INPUT);
+			this.changeCycleMode(BonusNoticeMode.INPUT);
 		}
 		
 		return MoveResult.CONTINUE;

@@ -58,6 +58,8 @@ var StockItemTradeScreen = defineObject(BaseScreen,
 			result = this._moveMenu();
 		}
 		
+		this._itemInfoWindow.moveWindow();
+		
 		return result;
 	},
 	

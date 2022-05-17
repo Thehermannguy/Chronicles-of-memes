@@ -52,7 +52,7 @@ var ItemUseEventCommand = defineObject(BaseEventCommand,
 			return false;
 		}
 		
-		if (this._item === null || this._item.isWeapon()) {
+		if (this._item === null || this._item.isWeapon() || !this._isItemAllowed(this._item)) {
 			return false;
 		}
 		
@@ -82,6 +82,18 @@ var ItemUseEventCommand = defineObject(BaseEventCommand,
 		this._itemUse = ItemPackageControl.getItemUseParent(this._item);
 		
 		return this._itemUse.enterUseCycle(itemTargetInfo) === EnterResult.NOTENTER;
+	},
+	
+	_isItemAllowed: function(item) {
+		if (item.getItemType() === ItemType.UNUSABLE) {
+			return false;
+		}
+		
+		if (item.getLimit() === WeaponLimitValue.BROKEN) {
+			return false;
+		}
+		
+		return true;
 	}
 }
 );

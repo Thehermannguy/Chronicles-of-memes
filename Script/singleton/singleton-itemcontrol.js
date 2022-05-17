@@ -70,7 +70,7 @@ var ItemControl = {
 		
 		for (i = 0; i < count; i++) {
 			trophy = list.getData(i);
-			if (ItemControl.compareItem(trophy.getItem(), item)) {
+			if ((trophy.getFlag() & TrophyFlag.ITEM) && ItemControl.compareItem(trophy.getItem(), item)) {
 				// Delete because id item which is the same as item is included in the drop trophy.
 				root.getCurrentSession().getTrophyEditor().deleteTrophy(list, trophy);
 				return true;

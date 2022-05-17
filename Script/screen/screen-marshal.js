@@ -197,7 +197,7 @@ var MarshalBaseMode = {
 };
 
 var MarshalBaseCommand = defineObject(BaseObject,
-{	
+{
 	_unitSelectWindow: null,
 	_parentMarshalScreen: null,
 	

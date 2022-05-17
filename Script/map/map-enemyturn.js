@@ -597,7 +597,7 @@ var AutoActionBuilder = {
 				return this._buildEmptyAction();
 			}
 			
-			if (combination.item !== null) {
+			if (combination.item !== null || combination.skill !== null) {
 				this._pushGeneral(unit, autoActionArray, combination);
 				return true;
 			}

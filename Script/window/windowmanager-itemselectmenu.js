@@ -50,6 +50,8 @@ var ItemSelectMenu = defineObject(BaseWindowManager,
 			result = this._moveDiscard();
 		}
 		
+		this._itemInfoWindow.moveWindow();
+		
 		return result;
 	},
 	

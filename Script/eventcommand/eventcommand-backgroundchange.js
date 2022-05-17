@@ -61,7 +61,7 @@ var BackgroundChangeEventCommand = defineObject(BaseEventCommand,
 	
 	_prepareEventCommandMemberData: function() {
 		this._isBackgroundChange = false;
-		this._transition = createObject(SystemTransition);
+		this._transition = null;
 	},
 	
 	_checkEventCommand: function() {
@@ -74,6 +74,8 @@ var BackgroundChangeEventCommand = defineObject(BaseEventCommand,
 	},
 	
 	_completeEventCommandMemberData: function() {
+		this._transition = createObject(SystemTransition);
+		
 		if (root.getEventCommandObject().getBackgroundTransitionType() === BackgroundTransitionType.BLACK) {
 			this._transition.setFadeSpeed(this._getChangeSpeed());
 		}
