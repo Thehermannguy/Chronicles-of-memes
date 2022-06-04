@@ -1584,6 +1584,8 @@ DataVariable.Act = defineObject(BaseDataVariable,
 DataVariable.Pdb = defineObject(BaseDataVariable,
 {
 	getList: function() {
+		// This method can be called for games that change unit names.
+		// return root.getMetaSession().getTotalPlayerList();
 		return root.getBaseData().getPlayerList();
 	},
 	
@@ -1786,6 +1788,8 @@ DataVariable.Va6 = defineObject(BaseDataVariable,
 	}
 }
 );
+
+// Having to write \pdb[va1[0]] is lengthy. This object supports \vpdb1[0] as shorthand.
 
 var BaseDataVariable2 = defineObject(BaseDataVariable,
 {

@@ -1034,7 +1034,7 @@ var AttackChecker = {
 	_isWeaponEnabled: function(weapon) {
 		// Checks whether the Attack command or counterattacks are allowed with the specified weapon.
 		// Return false for cases where the weapon can be equipped but it's broken and you don't want it to be used in battle.
-		return true
+		return true;
 	}
 };
 

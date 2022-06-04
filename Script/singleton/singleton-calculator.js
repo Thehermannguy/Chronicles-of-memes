@@ -692,8 +692,6 @@ var SupportCalculator = {
 	},
 	
 	_appendGuestList: function(listArray, filter) {
-		var list, count;
-		
 		if (!(filter & UnitFilterFlag.PLAYER)) {
 			return;
 		}

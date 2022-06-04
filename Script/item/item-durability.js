@@ -131,6 +131,7 @@ var DurabilityChangeItemUse = defineObject(BaseItemUse,
 	},
 	
 	_getDurability: function(itemTargetInfo) {
+		var durability = -1;
 		var type = itemTargetInfo.item.getDurabilityInfo().getDurabilityChangeType();
 		
 		if (type === DurabilityChangeType.MAXRECOVERY) {
@@ -138,9 +139,6 @@ var DurabilityChangeItemUse = defineObject(BaseItemUse,
 		}
 		else if (type === DurabilityChangeType.HALF) {
 			durability = Math.floor(itemTargetInfo.targetItem.getLimit() / 2);
-		}
-		else {
-			durability = -1;
 		}
 		
 		return durability;

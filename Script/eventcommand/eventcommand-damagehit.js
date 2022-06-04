@@ -85,7 +85,6 @@ var DamageHitEventCommand = defineObject(BaseEventCommand,
 	},
 	
 	_isHit: function(damageData) {
-		var skill;
 		var targetUnit = damageData.targetUnit;
 		var hp = targetUnit.getHp() - damageData.damage;
 		var hitRate = Calculator.calculateDamageHit(targetUnit, damageData.hit);

@@ -164,7 +164,7 @@ var CommunicationScreen = defineObject(BaseScreen,
 		// If the event has already been executed, don't continue.
 		if (entry.event.getExecutedMark() === EventExecutedType.EXECUTED) {
 			return;
-		}	
+		}
 		
 		// Initialize it so that the event name can be grayish after the event ends.
 		entry.isLock = true;
@@ -173,7 +173,7 @@ var CommunicationScreen = defineObject(BaseScreen,
 		if (type === CommunicationEventType.INFORMATION) {
 			// If a type is "Information", the "Executed" is not recorded.
 			isExecuteMark = false;
-		}			
+		}
 		this._capsuleEvent.enterCapsuleEvent(entry.event, isExecuteMark);
 		
 		this.changeCycleMode(CommunicationMode.EVENT);

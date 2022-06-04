@@ -59,7 +59,7 @@ var BattleResultScene = defineObject(BaseScene,
 		var mapId;
 		var type = root.getSceneController().getRestSaveType();
 		
-		MediaControl.resetMusicList();
+		this._closeMusic();
 		
 		if (type === RestSaveType.AREA || type === RestSaveType.AREANOSAVE) {
 			root.changeScene(SceneType.REST);
@@ -69,6 +69,10 @@ var BattleResultScene = defineObject(BaseScene,
 			root.getSceneController().startNewMap(mapId);
 			root.changeScene(SceneType.BATTLESETUP);
 		}
+	},
+	
+	_closeMusic: function() {
+		MediaControl.resetMusicList();
 	},
 	
 	_pushFlowEntriesBefore: function(straightFlow) {

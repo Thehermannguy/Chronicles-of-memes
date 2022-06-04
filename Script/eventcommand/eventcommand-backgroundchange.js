@@ -74,6 +74,7 @@ var BackgroundChangeEventCommand = defineObject(BaseEventCommand,
 	},
 	
 	_completeEventCommandMemberData: function() {
+		// Make a transition here when transition is set to "None".
 		this._transition = createObject(SystemTransition);
 		
 		if (root.getEventCommandObject().getBackgroundTransitionType() === BackgroundTransitionType.BLACK) {

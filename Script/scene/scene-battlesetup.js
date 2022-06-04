@@ -197,9 +197,13 @@ var BattleSetupScene = defineObject(BaseScene,
 	_changeFreeScene: function() {
 		// Only if change scene or victory map doesn't occur in the event, execute SceneType.FREE.
 		if (root.getCurrentScene() === SceneType.BATTLESETUP) {
-			MediaControl.clearMusicCache();
+			this._closeMusic();
 			root.changeScene(SceneType.FREE);
 		}
+	},
+	
+	_closeMusic: function() {
+		MediaControl.clearMusicCache();
 	},
 	
 	_drawSortieMark: function() {
