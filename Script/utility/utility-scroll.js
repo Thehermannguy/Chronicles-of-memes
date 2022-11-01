@@ -265,12 +265,26 @@ var ScrollBackground = defineObject(BaseObject,
 			this._createBackgroundCache();
 		}
 		
+		this._setPicInfo(this._picCache);
+		
 		this._picCache.drawStretchParts(0, 0, root.getGameAreaWidth(), root.getGameAreaHeight(),
 			this._xScroll, this._yScroll, this._pic.getWidth(), this._pic.getHeight());
 	},
 	
 	isScrollable: function() {
 		return this._isHorz || this._isVert;
+	},
+	
+	getConsolidatedImage: function() {
+		if (this._pic === null) {
+			return null;
+		}
+		
+		if (this._picCache === null) {
+			this._createBackgroundCache();
+		}
+		
+		return this._picCache;
 	},
 	
 	_createBackgroundCache: function() {
@@ -295,6 +309,9 @@ var ScrollBackground = defineObject(BaseObject,
 		}
 		
 		graphicsManager.resetRenderCache();
+	},
+	
+	_setPicInfo: function(pic) {
 	},
 	
 	_getCounterMax: function() {

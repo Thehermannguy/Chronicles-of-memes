@@ -12,6 +12,7 @@ var MapPosChooseEventCommand = defineObject(BaseEventCommand,
 	_isUnitOnlyMode: false,
 	_isQuestionDisplayable: false,
 	_isCancelAllowed: false,
+	_isSelfAllowed: false,
 	
 	enterEventCommandCycle: function() {
 		this._prepareEventCommandMemberData();
@@ -84,7 +85,15 @@ var MapPosChooseEventCommand = defineObject(BaseEventCommand,
 	},
 	
 	_createPosSelector: function() {
-		return createObject(PosSelector);
+		var posSelector = createObject(PosSelector);
+		
+		this._isSelfAllowed = false;
+		if (root.getEventCommandObject().isSelfAllowed()) {
+			this._isSelfAllowed = true;
+			posSelector.enableSelfSelection();
+		}
+		
+		return posSelector;
 	},
 	
 	_createPositionIndexData: function() {
@@ -351,6 +360,10 @@ var PositionIndexArray = {
 	},
 	
 	_isUnitAllowed: function(piData, targetUnit) {
+		if (root.getEventCommandObject().isSelfAllowed()) {
+			return true;
+		}
+		
 		return piData.targetUnit !== targetUnit;
 	},
 	

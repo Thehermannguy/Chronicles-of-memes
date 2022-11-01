@@ -228,7 +228,6 @@ var RealBattle = defineObject(BaseBattle,
 		this._effectArray = [];
 		this._idleCounter = createObject(IdleCounter);
 		this._autoScroll = createObject(RealAutoScroll);
-		this._battleTransition = createObject(BattleTransition);
 		this._uiBattleLayout = this._createUIBattleLayout();
 		
 		this._createBattleArea();
@@ -647,6 +646,10 @@ var BaseBattler = defineObject(BaseObject,
 			return MoveResult.CONTINUE;
 		}
 		
+		if (!this._startNextFrame()) {
+			return false;
+		}
+		
 		motionCategoryType = this.getMotionCategoryType();
 		if (motionCategoryType === MotionCategoryType.NORMAL) {
 			this.moveNormal();
@@ -900,6 +903,10 @@ var BaseBattler = defineObject(BaseObject,
 		}
 		
 		return isEnd;
+	},
+	
+	_startNextFrame: function() {
+		return true;
 	}
 }
 );

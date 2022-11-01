@@ -142,7 +142,7 @@ var ScreenController = {
 		var interopData, textui;
 		var screen = screenContainer.screen;
 		
-		this._scrollBackground.drawScrollBackground();
+		this._drawBackground(screenContainer);
 		
 		interopData = screen.getScreenInteropData();
 		if (interopData !== null) {
@@ -167,6 +167,10 @@ var ScreenController = {
 		
 		// Draw details on the screen.
 		screen.drawScreenCycle();
+	},
+	
+	_drawBackground: function(screenContainer) {
+		this._scrollBackground.drawScrollBackground();
 	},
 	
 	_playScreenMusic: function(screenContainer) {

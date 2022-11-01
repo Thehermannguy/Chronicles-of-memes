@@ -421,10 +421,6 @@ var MarkingPanel = defineObject(BaseObject,
 			return;
 		}
 		
-		if (!root.isSystemSettings(SystemSettingsType.MARKING)) {
-			return;
-		}
-		
 		root.drawFadeLight(this._indexArray, this._getColor(), this._getAlpha());
 		root.drawFadeLight(this._indexArrayWeapon, this._getColor(), this._getAlpha());
 	},
@@ -470,6 +466,10 @@ var MarkingPanel = defineObject(BaseObject,
 		}
 		
 		if (!EnvironmentControl.isEnemyMarking()) {
+			return false;
+		}
+		
+		if (!root.isSystemSettings(SystemSettingsType.MARKING)) {
 			return false;
 		}
 		

@@ -1572,6 +1572,9 @@ var MotionIdControl = {
 	
 	_getBowIdInternal: function(collection, midData) {
 		var type;
+		var count = midData.count;
+		
+		count %= 2;
 		
 		if (midData.isCritical) {
 			if (midData.isFinish) {
@@ -1582,10 +1585,42 @@ var MotionIdControl = {
 			}
 		}
 		else {
-			type = MotionArcher.BOW;
+			if (count === 0) {
+				type = MotionArcher.BOW;
+			}
+			else {
+				type = MotionArcher.BOW2;
+			}
 		}
 		
 		midData.id = collection.getArcherId(type);
+		midData.type = type;
+	},
+	
+	_getMagicIdInternal: function(collection, midData) {
+		var type;
+		var count = midData.count;
+		
+		count %= 2;
+		
+		if (midData.isCritical) {
+			if (midData.isFinish) {
+				type = MotionMage.CRITICALFINISH;
+			}
+			else {
+				type = MotionMage.CRITICALMAGIC;
+			}
+		}
+		else {
+			if (count === 0) {
+				type = MotionMage.MAGIC;
+			}
+			else {
+				type = MotionMage.MAGIC2;
+			}
+		}
+		
+		midData.id = collection.getMageId(type);
 		midData.type = type;
 	},
 	

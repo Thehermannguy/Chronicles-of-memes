@@ -157,6 +157,7 @@ var RestScene = defineObject(BaseScene,
 	
 	_moveEnding: function() {
 		if (this._straightFlowEnding.moveStraightFlow() !== MoveResult.CONTINUE) {
+			this._closeMusic();
 			return MoveResult.END;
 		}
 		
@@ -202,6 +203,10 @@ var RestScene = defineObject(BaseScene,
 		
 		this._restCommandManager.rebuildCommand();
 		this._restCommandManager.getCommandScrollbar().setIndex(index);
+	},
+	
+	_closeMusic: function() {
+		MediaControl.resetMusicList();
 	},
 	
 	_pushFlowOpeningEntries: function(straightFlow) {

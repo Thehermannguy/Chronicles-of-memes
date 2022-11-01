@@ -220,8 +220,7 @@ var AnimeSimple = defineObject(BaseObject,
 		var isReverse = this._animeData.isSpriteReverse(this._motionId, frameIndex, i);
 		
 		if (animeRenderParam !== null) {
-			// If _alpha is set, alpha value which is set at the sprite isn't used.
-			if (animeRenderParam.alpha !== -1) {
+			if (this._isAlphaChangeEnabled(frameIndex, i, animeRenderParam)) {
 				alpha = animeRenderParam.alpha;
 			}
 			
@@ -259,6 +258,19 @@ var AnimeSimple = defineObject(BaseObject,
 			isRight: isRight,
 			isReverse: isReverse
 		};
+	},
+	
+	_isAlphaChangeEnabled: function(frameIndex, i, animeRenderParam) {
+		if (animeRenderParam === null) {
+			return false;
+		}
+		
+		if (this._animeData.getSpriteAlpha(this._motionId, frameIndex, i) === 0) {
+			return false;
+		}
+		
+		// If _alpha is set, alpha value which is set at the sprite isn't used.
+		return animeRenderParam.alpha !== -1;
 	},
 	
 	_drawSprite: function(x, y, width, height, pic, isAbsolute, isRight, xSrc, ySrc, srcWidth, srcHeight, animeCoordinates) {

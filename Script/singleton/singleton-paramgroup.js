@@ -123,6 +123,8 @@ var ParamGroup = {
 		
 		n = FusionControl.getLastValue(unit, index, n);
 		
+		n = MetamorphozeControl.getLastValue(unit, index, n);
+		
 		return n;
 	},
 	

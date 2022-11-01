@@ -416,13 +416,21 @@ var UnitDeathFlowEntry = defineObject(BaseFlowEntry,
 	_playUnitDeathMusic: function() {
 		var handle;
 		
-		if (this._passiveUnit.getUnitType() === UnitType.PLAYER && !this._passiveUnit.isGuest()) {
-			handle = root.querySoundHandle('playerdeathmusic');
+		if (this._isDeathMusicAllowed()) {
+			handle = this._getDeathMusicHandle();
 			if (!handle.isNullHandle()) {
 				MediaControl.musicPlay(handle);
 				this._coreAttack.getBattleObject().getBattleTable().setMusicPlayFlag(true);
 			}
 		}
+	},
+	
+	_isDeathMusicAllowed: function() {
+		return this._passiveUnit.getUnitType() === UnitType.PLAYER && !this._passiveUnit.isGuest();
+	},
+	
+	_getDeathMusicHandle: function() {
+		return root.querySoundHandle('playerdeathmusic');
 	}
 }
 );

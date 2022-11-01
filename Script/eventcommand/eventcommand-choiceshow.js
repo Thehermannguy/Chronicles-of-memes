@@ -38,16 +38,34 @@ var ChoiceShowEventCommand = defineObject(BaseEventCommand,
 		return false;
 	},
 	
+	isTwoLines: function() {
+		return this._isTwoLines;
+	},
+	
 	_prepareEventCommandMemberData: function() {
-		var i, text, obj;
-		var replacer = createObject(VariableReplacer);
-		var maxMessageCount = this._getMaxMessageCount();
 		var eventCommandData = root.getEventCommandObject();
 		
 		this._scrollbar = createScrollbarObject(SelectScrollbar, this);
 		this._messageArray = [];
 		this._switchArray = [];
 		this._isTwoLines = eventCommandData.isTwoLines();
+		
+		this._resetPreviousSelfSwitches(eventCommandData);
+		
+		this._setScrollbarData(eventCommandData);
+		
+		// Choices are needed to display even if it's a skip mode, so force skip to be suspended.
+		this.stopEventSkip();
+	},
+	
+	_resetPreviousSelfSwitches: function(eventCommandData) {
+		eventCommandData.resetSelfSwitches();
+	},
+	
+	_setScrollbarData: function(eventCommandData) {
+		var i, text, obj;
+		var replacer = createObject(VariableReplacer);
+		var maxMessageCount = this._getMaxMessageCount();
 		
 		for (i = 0; i < maxMessageCount; i++) {
 			if (!eventCommandData.isChoiceDisplayable(i)) {
@@ -64,13 +82,6 @@ var ChoiceShowEventCommand = defineObject(BaseEventCommand,
 				this._switchArray.push(eventCommandData.getSelfSwitchId(i));
 			}
 		}
-		
-		// Choices are needed to display even if it's a skip mode, so force skip to be suspended.
-		this.stopEventSkip();
-	},
-	
-	isTwoLines: function() {
-		return this._isTwoLines;
 	},
 	
 	_checkEventCommand: function() {

@@ -335,11 +335,15 @@ var Calculator = {
 			return 1;
 		}
 		
-		activeAgi = AbilityCalculator.getAgility(active, weapon);
+		activeAgi = AbilityCalculator.getAgility(active, weapon) + this.getAgilityPlus(active, passive, weapon);
 		passiveAgi = AbilityCalculator.getAgility(passive, ItemControl.getEquippedWeapon(passive));
 		value = this.getDifference();
 		
 		return (activeAgi - passiveAgi) >= value ? 2 : 1;
+	},
+	
+	getAgilityPlus: function(active, passive, weapon) {
+		return CompatibleCalculator.getAgility(active, passive, weapon);
 	},
 	
 	getDifference: function(unit) {
@@ -763,6 +767,16 @@ var CompatibleCalculator = {
 		}
 		
 		return compatible.getCriticalAvoid();
+	},
+	
+	getAgility: function(active, passive, weapon) {
+		var compatible = this._getCompatible(active, passive, weapon);
+		
+		if (compatible === null) {
+			return 0;
+		}
+		
+		return compatible.getAgility();
 	},
 	
 	_getCompatible: function(active, passive, weapon) {

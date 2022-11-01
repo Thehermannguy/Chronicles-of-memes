@@ -1,29 +1,68 @@
 
+var SkillProjectorFlag = {
+	TEXT: 0x01,
+	ANIME: 0x02,
+	TEXTANIME: 0x03
+};
+
 var SkillProjector = defineObject(BaseObject,
 {
-	_projector: null,
+	_flag: 0,
+	_projectorText: null,
+	_projectorAnime: null,
 	
 	setupProjector: function(battleType, battleObject) {
-		if (DataConfig.isSkillAnimeEnabled()) {
-			this._projector = createObject(AnimeSkillProjector);
-		}
-		else {
-			this._projector = createObject(TextSkillProjector);
+		this._flag = this._getProjectorFlag();
+		
+		if (this._flag & SkillProjectorFlag.TEXT) {
+			this._projectorText = createObject(TextSkillProjector);
+			this._projectorText.setupProjector(battleType, battleObject);
 		}
 		
-		this._projector.setupProjector(battleType, battleObject);
+		if (this._flag & SkillProjectorFlag.ANIME) {
+			this._projectorAnime = createObject(AnimeSkillProjector);
+			this._projectorAnime.setupProjector(battleType, battleObject);
+		}
 	},
 	
 	startProjector: function(rightSkillArray, leftSkillArray, isRight) {
-		this._projector.startProjector(rightSkillArray, leftSkillArray, isRight);
+		if (this._flag & SkillProjectorFlag.TEXT) {
+			this._projectorText.startProjector(rightSkillArray, leftSkillArray, isRight);
+		}
+		
+		if (this._flag & SkillProjectorFlag.ANIME) {
+			this._projectorAnime.startProjector(rightSkillArray, leftSkillArray, isRight);
+		}
 	},
 	
 	moveProjector: function() {
-		return this._projector.moveProjector();
+		var result1 = MoveResult.END;
+		var result2 = MoveResult.END;
+		
+		if (this._flag & SkillProjectorFlag.TEXT) {
+			result1 = this._projectorText.moveProjector();
+		}
+		
+		if (this._flag & SkillProjectorFlag.ANIME) {
+			result2 = this._projectorAnime.moveProjector();
+		}
+		
+		return result1 === MoveResult.END && result2 === MoveResult.END ? MoveResult.END : MoveResult.CONTINUE;
 	},
 	
 	drawProjector: function() {
-		this._projector.drawProjector();
+		if (this._flag & SkillProjectorFlag.TEXT) {
+			this._projectorText.drawProjector();
+		}
+		
+		if (this._flag & SkillProjectorFlag.ANIME) {
+			this._projectorAnime.drawProjector();
+		}	
+	},
+	
+	_getProjectorFlag: function() {
+		// return SkillProjectorFlag.TEXTANIME
+		return DataConfig.isSkillAnimeEnabled() ? SkillProjectorFlag.ANIME : SkillProjectorFlag.TEXT;
 	}
 }
 );

@@ -590,7 +590,8 @@ var MotionArcher = {
 	AVOID2: 4,
 	DAMAGE: 5,
 	FINISHDAMAGE: 6,
-	CRITICALFINISH: 7
+	CRITICALFINISH: 7,
+	BOW2: 8
 };
 
 var MotionMage = {
@@ -601,7 +602,8 @@ var MotionMage = {
 	AVOID2: 4,
 	DAMAGE: 5,
 	FINISHDAMAGE: 6,
-	CRITICALFINISH: 7
+	CRITICALFINISH: 7,
+	MAGIC2: 8
 };
 
 var InterpolationMode = {
@@ -938,6 +940,53 @@ var LanguageCode = {
 var GradientType = {
 	RADIAL: 0,
 	LINEAR: 1
+};
+
+//----------------------------
+
+var BlendMode = {
+	MULTIPLY: 0,
+	SCREEN: 1,
+	DARKEN: 2,
+	LIGHTEN: 3,
+	DISSOLVE: 4,
+	COLOR_BURN: 5,
+	LINEAR_BURN: 6,
+	DARKER_COLOR: 7,
+	LIGHTER_COLOR: 8,
+	COLOR_DODGE: 9,
+	LINEAR_DODGE: 10,
+	OVERLAY: 11,
+	SOFT_LIGHT: 12,
+	HARD_LIGHT: 13,
+	VIVID_LIGHT: 14,
+	LINEAR_LIGHT: 15,
+	PIN_LIGHT: 16,
+	HARD_MIX: 17,
+	DIFFERENCE: 18,
+	EXCLUSION: 19,
+	HUE: 20,
+	SATURATION: 21,
+	COLOR: 22,
+	LUMINOSITY: 23,
+	SUBTRACT: 24,
+	DIVISION: 25
+};
+
+var CompositeMode = {
+	SOURCE_OVER: 0,
+	DESTINATION_OVER: 1,
+	SOURCE_IN: 2,
+	DESTINATION_IN: 3,
+	SOURCE_OUT: 4,
+	DESTINATION_OUT: 5,
+	SOURCE_ATOP: 6,
+	DESTINATION_ATOP: 7,
+	XOR: 8,
+	PLUS: 9,
+	SOURCE_COPY: 10,
+	BOUNDED_SOURCE_COPY: 11,
+	MASK_INVERT: 12
 };
 
 //----------------------------

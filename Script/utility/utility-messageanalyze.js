@@ -870,7 +870,7 @@ var TextParser = defineObject(BaseObject,
 		
 		for (;;) {
 			// Point an index on the text.
-			min = 999;
+			min = this._getDefaultMin();
 			
 			// Point an index on the string.
 			index = -1;
@@ -941,6 +941,10 @@ var TextParser = defineObject(BaseObject,
 		}
 		
 		return false;
+	},
+	
+	_getDefaultMin: function() {
+		return 999;
 	},
 	
 	// For one control character, one object exists.
@@ -1455,7 +1459,7 @@ var VariableReplacer = defineObject(BaseObject,
 		arr = this._variableArray;
 		
 		for (;;) {
-			min = 999;
+			min = this._getDefaultMin();
 			index = -1;
 		
 			count = arr.length;
@@ -1484,6 +1488,10 @@ var VariableReplacer = defineObject(BaseObject,
 		}
 		
 		return s;
+	},
+	
+	_getDefaultMin: function() {
+		return 999;
 	},
 	
 	_configureVariableObject: function(groupArray) {

@@ -287,6 +287,8 @@ var MetamorphozeControl = {
 		unit.getUnitStyle().setMetamorphozeData(metamorphozeData);
 		unit.getUnitStyle().setMetamorphozeTurn(metamorphozeData.getCancelTurn());
 		
+		this._addState(unit, metamorphozeData);
+		
 		Miscellaneous.changeHpBonus(unit, mhpPrev);
 		
 		return true;
@@ -315,6 +317,33 @@ var MetamorphozeControl = {
 	
 	isMetamorphozeAllowed: function(unit, metamorphozeData) {
 		return metamorphozeData.isParameterCondition(unit) && metamorphozeData.isDataCondition(unit);
+	},
+	
+	getLastValue: function(unit, index, n) {
+		var value = n;
+		var calc = null;
+		var metamorphozeData = MetamorphozeControl.getMetamorphozeData(unit);
+		
+		if (metamorphozeData !== null) {
+			calc = metamorphozeData.getStatusCalculation();
+		}
+		
+		if (calc !== null) {
+			value = SymbolCalculator.calculate(n, calc.getValue(index), calc.getOperatorSymbol(index));
+		}
+		
+		return value;
+	},
+	
+	_addState: function(unit, metamorphozeData) {
+		var i, state;
+		var refList = metamorphozeData.getStateReferenceList();
+		var count = refList.getTypeCount();
+		
+		for (i = 0; i < count; i++) {
+			state = refList.getTypeData(i);
+			StateControl.arrangeState(unit, state, IncreaseType.INCREASE);
+		}
 	},
 	
 	_deleteMetamorphozeItem: function(unit) {

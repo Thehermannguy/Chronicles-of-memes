@@ -868,7 +868,7 @@ var UnitEventChecker = {
 			info = event.getUnitEventInfo();
 			if (info.getUnitEventType() === unitEventType) {
 				if (unitEventType === UnitEventType.BATTLE) {
-					if (event.isBattleEvent(targetUnit)) {
+					if (this._isBattleEvent(unit, targetUnit, event)) {
 						return event;
 					}
 				}
@@ -881,6 +881,13 @@ var UnitEventChecker = {
 		}
 		
 		return null;
+	},
+	
+	_isBattleEvent: function(unit, targetUnit, event) {
+		// For enemy units that have a battle unit event with XX unit and Active unit,
+		// if the conditions for XX unit are not met, nothing is shown (including the Active unit event).
+		// To have it show the Active unit event in such a case, call event.isBattleEventEx(targetUnit);
+		return event.isBattleEvent(targetUnit);
 	}
 };
 

@@ -625,6 +625,9 @@ var AllEventFlowEntry = defineObject(BaseFlowEntry,
 		else if (commandType === EventCommandType.MAPPOSOPERATION) {
 			this._mapPosOperation(generator, targetUnit, command);
 		}
+		else if (commandType === EventCommandType.SCRIPTEXECUTE) {
+			this._scriptExecute(generator, targetUnit, command);
+		}
 	},
 	
 	_unitRemove: function(generator, targetUnit, command) {
@@ -697,6 +700,10 @@ var AllEventFlowEntry = defineObject(BaseFlowEntry,
 	
 	_mapPosOperation: function(generator, targetUnit, command) {
 		generator.mapPosOperation(targetUnit, targetUnit.getMapX(), targetUnit.getMapY(), command.getMapChipGraphicsHandle());
+	},
+	
+	_scriptExecute: function(generator, targetUnit, command) {
+		generator.scriptExecute(targetUnit, -1);
 	},
 	
 	_isCommandSkip: function(command) {

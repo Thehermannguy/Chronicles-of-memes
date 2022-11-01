@@ -392,6 +392,7 @@ var ItemUseParent = defineObject(BaseObject,
 	
 	setItemSkipMode: function(isSkipMode) {
 		CurrentMap.setTurnSkipMode(isSkipMode);
+		MapLayer.setEffectMotion(null);
 	},
 	
 	decreaseItem: function() {

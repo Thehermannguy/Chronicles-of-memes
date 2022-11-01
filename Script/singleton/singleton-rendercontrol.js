@@ -204,13 +204,14 @@ var UnitRenderer = {
 		var xSrc = handle.getSrcX() * (width * 3);
 		var ySrc = handle.getSrcY() * (height * 5);
 		var pic = this._getGraphics(handle, unitRenderParam.colorIndex);
+		var tileSize = this._getTileSize(unitRenderParam);
 		
 		if (pic === null) {
 			return;
 		}
 		
-		dx = Math.floor((width - GraphicsFormat.MAPCHIP_WIDTH) / 2);
-		dy = Math.floor((height - GraphicsFormat.MAPCHIP_HEIGHT) / 2);
+		dx = Math.floor((width - tileSize.width) / 2);
+		dy = Math.floor((height - tileSize.height) / 2);
 		dxSrc = unitRenderParam.animationIndex;
 		dySrc = directionArray[unitRenderParam.direction];
 		
@@ -264,6 +265,24 @@ var UnitRenderer = {
 		}
 		
 		this.drawCharChip(x, y, unitRenderParam);
+	},
+	
+	_getTileSize: function(unitRenderParam) {
+		var size = {
+			width: 32,
+			height: 32
+		};
+		
+		if (unitRenderParam.isScroll || AttackControl.isAttack()) {
+			if (size.width !== GraphicsFormat.MAPCHIP_WIDTH) {
+				size.width = GraphicsFormat.MAPCHIP_WIDTH;
+			}
+			if (size.height !== GraphicsFormat.MAPCHIP_HEIGHT) {
+				size.height = GraphicsFormat.MAPCHIP_HEIGHT;
+			}
+		}
+		
+		return size;
 	},
 	
 	_setDefaultParam: function(unit, unitRenderParam) {
@@ -373,17 +392,7 @@ var GraphicsRenderer = {
 		
 		if (pic !== null) {
 			if (graphicsRenderParam !== null) {
-				if (graphicsRenderParam.alpha !== 255) {
-					pic.setAlpha(graphicsRenderParam.alpha);
-				}
-				
-				if (graphicsRenderParam.isReverse) {
-					pic.setReverse(graphicsRenderParam.isReverse);
-				}
-				
-				if (graphicsRenderParam.degree !== 0) {
-					pic.setDegree(graphicsRenderParam.degree);
-				}
+				this._setRenderParam(pic, graphicsRenderParam);
 			}
 			
 			pic.drawStretchParts(xDest, yDest, width, height, xSrc * width, ySrc * height, width, height);
@@ -494,6 +503,20 @@ var GraphicsRenderer = {
 			width: width,
 			height: height
 		};
+	},
+	
+	_setRenderParam: function(pic, graphicsRenderParam) {
+		if (graphicsRenderParam.alpha !== 255) {
+			pic.setAlpha(graphicsRenderParam.alpha);
+		}
+		
+		if (graphicsRenderParam.isReverse) {
+			pic.setReverse(graphicsRenderParam.isReverse);
+		}
+		
+		if (graphicsRenderParam.degree !== 0) {
+			pic.setDegree(graphicsRenderParam.degree);
+		}
 	}
 };
 
@@ -839,8 +862,7 @@ var ContentRenderer = {
 			return;
 		}
 		
-		pic.setReverse(isReverse);
-		pic.setAlpha(alpha);
+		this._setPicInfo(pic, unit, isReverse, alpha);
 		
 		this._drawShrinkFace(x, y, handle, pic);
 	},
@@ -853,6 +875,11 @@ var ContentRenderer = {
 		}
 		
 		this._drawShrinkFace(x, y, handle, pic);
+	},
+	
+	_setPicInfo: function(pic, unit, isReverse, alpha) {
+		pic.setReverse(isReverse);
+		pic.setAlpha(alpha);
 	},
 	
 	_drawShrinkFace: function(xDest, yDest, handle, pic) {

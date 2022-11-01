@@ -18,6 +18,7 @@ var PosSelector = defineObject(BaseObject,
 	_posCursor: null,
 	_selectorType: 0,
 	_isFusionIncluded: false,
+	_isSelfSelection: false,
 	
 	initialize: function() {
 		this._mapCursor = createObject(MapCursor);
@@ -46,6 +47,10 @@ var PosSelector = defineObject(BaseObject,
 	
 	includeFusion: function() {
 		this._isFusionIncluded = true;
+	},
+	
+	enableSelfSelection: function() {
+		this._isSelfSelection = true;
 	},
 	
 	movePosSelector: function() {
@@ -104,7 +109,7 @@ var PosSelector = defineObject(BaseObject,
 			}
 			else {
 				// Myself cannot be selected.
-				return null;
+				return this._isSelfSelection ? this._unit : null;
 			}
 		}
 		

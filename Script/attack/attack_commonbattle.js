@@ -328,17 +328,24 @@ var EasyInterruptSkillFlowEntry = defineObject(BaseFlowEntry,
 
 var RealBattleTable = defineObject(BaseBattleTable,
 {
-	_battleTransition: null,
+	_startBattleTransition: null,
+	_endBattleTransition: null,
 	
 	initialize: function() {
 		BaseBattleTable.initialize.call(this);
 		
-		this._battleTransition = createObject(BattleTransition);
+		this._startBattleTransition = this._createStartBattleTransition();
+		this._endBattleTransition = this._createEndBattleTransition();
+		
 		this._isBattleStart = false;
 	},
 	
-	getBattleTransition: function() {
-		return this._battleTransition;
+	getStartBattleTransition: function() {
+		return this._startBattleTransition;
+	},
+	
+	getEndBattleTransition: function() {
+		return this._endBattleTransition;
 	},
 	
 	isBattleStart: function() {
@@ -348,6 +355,14 @@ var RealBattleTable = defineObject(BaseBattleTable,
 	setBattleStartFlag: function(isStart) {
 		this._isBattleStart = isStart;
 		this.getBattleObject().setBattleLayoutVisible(true);
+	},
+	
+	_createStartBattleTransition: function() {
+		return createObject(BattleTransition);
+	},
+	
+	_createEndBattleTransition: function() {
+		return createObject(CloseBattleTransition);
 	},
 	
 	_pushFlowEntriesBattleStart: function(straightFlow) {
@@ -387,17 +402,9 @@ var TransitionStartFlowEntry = defineObject(BaseFlowEntry,
 	},
 	
 	moveFlowEntry: function() {
-		var isMusicPlay;
+		this._checkMusic();
 		
-		if (this._battleTable.getBattleTransition().isSecondHalf()) {
-			if (!this._battleTable.isBattleStart()) {
-				isMusicPlay = BattleMusicControl.playBattleMusic(this._battleTable, true);
-				this._battleTable.setMusicPlayFlag(isMusicPlay);
-				this._battleTable.setBattleStartFlag(true);
-			}
-		}
-		
-		if (this._battleTable.getBattleTransition().moveBattleTransition() !== MoveResult.CONTINUE) {
+		if (this._battleTable.getStartBattleTransition().moveBattleTransition() !== MoveResult.CONTINUE) {
 			return MoveResult.END;
 		}
 		
@@ -405,7 +412,7 @@ var TransitionStartFlowEntry = defineObject(BaseFlowEntry,
 	},
 	
 	drawFlowEntry: function() {
-		this._battleTable.getBattleTransition().drawBattleTransition();
+		this._battleTable.getStartBattleTransition().drawBattleTransition();
 	},
 	
 	_prepareMemberData: function(battleTable) {
@@ -413,9 +420,21 @@ var TransitionStartFlowEntry = defineObject(BaseFlowEntry,
 	
 	_completeMemberData: function(battleTable) {
 		this._battleTable = battleTable;
-		this._battleTable.getBattleTransition().startBattleTransition(true);
+		this._battleTable.getStartBattleTransition().setupBattleTransition();
 		
 		return EnterResult.OK;
+	},
+	
+	_checkMusic: function() {
+		var isMusicPlay;
+		
+		if (this._battleTable.getStartBattleTransition().isSecondHalf()) {
+			if (!this._battleTable.isBattleStart()) {
+				isMusicPlay = BattleMusicControl.playBattleMusic(this._battleTable, true);
+				this._battleTable.setMusicPlayFlag(isMusicPlay);
+				this._battleTable.setBattleStartFlag(true);
+			}
+		}
 	}
 }
 );
@@ -430,7 +449,7 @@ var TransitionEndFlowEntry = defineObject(BaseFlowEntry,
 	},
 	
 	moveFlowEntry: function() {
-		if (this._battleTable.getBattleTransition().moveBattleTransition() !== MoveResult.CONTINUE) {
+		if (this._battleTable.getEndBattleTransition().moveBattleTransition() !== MoveResult.CONTINUE) {
 			return MoveResult.END;
 		}
 		
@@ -438,7 +457,7 @@ var TransitionEndFlowEntry = defineObject(BaseFlowEntry,
 	},
 	
 	drawFlowEntry: function() {
-		this._battleTable.getBattleTransition().drawBattleTransition();
+		this._battleTable.getEndBattleTransition().drawBattleTransition();
 	},
 	
 	_prepareMemberData: function(battleTable) {
@@ -446,7 +465,7 @@ var TransitionEndFlowEntry = defineObject(BaseFlowEntry,
 	
 	_completeMemberData: function(battleTable) {
 		this._battleTable = battleTable;
-		this._battleTable.getBattleTransition().startBattleTransition(false);
+		this._battleTable.getEndBattleTransition().setupBattleTransition();
 		
 		return EnterResult.OK;
 	}
@@ -909,62 +928,13 @@ var BattleTransition = defineObject(BaseObject,
 {
 	_xTransition: 0,
 	_xSrc: 0,
-	_transition: null,
-	_isStart: false,
 	
-	startBattleTransition: function(isStart) {
-		this._isStart = isStart;
-		
-		if (this._isStart) {
-			this._changeStartTransition();
-		}
-		else {
-			this._changeEndTransition();
-		}
-	},
-	
-	moveBattleTransition: function() {
-		var result;
-		
-		if (this._isStart) {
-			result = this._moveStartTransition();
-		}
-		else {
-			result = this._moveEndTransition();
-		}
-		
-		return result;
-	},
-	
-	drawBattleTransition: function() {
-		root.getGraphicsManager().enableMapClipping(false);
-		
-		if (this._isStart) {
-			this._drawStartTransition();
-		}
-		else {
-			this._drawEndTransition();
-		}
-		
-		root.getGraphicsManager().enableMapClipping(true);
-	},
-	
-	isSecondHalf: function() {
-		return this._xSrc > 640;
-	},
-	
-	_changeStartTransition: function() {
+	setupBattleTransition: function() {
 		this._xTransition = RealBattleArea.WIDTH;
 		this._xSrc = 0 - this._getMargin();
 	},
 	
-	_changeEndTransition: function() {
-		this._transition = createObject(FadeTransition);
-		this._transition.setFadeSpeed(8);
-		this._transition.setDestOut();
-	},
-	
-	_moveStartTransition: function() {
+	moveBattleTransition: function() {
 		this._xSrc += this._getScrollPixel();
 		
 		if (this._xSrc > 1280 + this._getMargin()) {
@@ -974,15 +944,19 @@ var BattleTransition = defineObject(BaseObject,
 		return MoveResult.CONTINUE;
 	},
 	
-	_moveEndTransition: function() {
-		if (this._transition.moveTransition() !== MoveResult.CONTINUE) {
-			return MoveResult.END;
-		}
+	drawBattleTransition: function() {
+		root.getGraphicsManager().enableMapClipping(false);
 		
-		return MoveResult.CONTINUE;
+		this._drawTransitionInternal();
+		
+		root.getGraphicsManager().enableMapClipping(true);
 	},
 	
-	_drawStartTransition: function() {
+	isSecondHalf: function() {
+		return this._xSrc > 640;
+	},
+	
+	_drawTransitionInternal: function() {
 		var handle = root.queryGraphicsHandle('battletransition');
 		var pic = GraphicsRenderer.getGraphics(handle, GraphicsType.PICTURE);
 		var x = this._xSrc;
@@ -990,10 +964,6 @@ var BattleTransition = defineObject(BaseObject,
 		if (pic !== null) {
 			pic.drawStretchParts(0, 0, root.getGameAreaWidth(), root.getGameAreaHeight(), x, 0, 640, 480);
 		}
-	},
-	
-	_drawEndTransition: function() {
-		this._transition.drawTransition();
 	},
 	
 	_getScrollPixel: function() {
@@ -1012,6 +982,34 @@ var BattleTransition = defineObject(BaseObject,
 	
 	_getMargin: function() {
 		return 360;
+	}
+}
+);
+
+var CloseBattleTransition = defineObject(BaseObject,
+{
+	_transition: null,
+	
+	setupBattleTransition: function() {
+		this._transition = createObject(FadeTransition);
+		this._transition.setFadeSpeed(8);
+		this._transition.setDestOut();
+	},
+	
+	moveBattleTransition: function() {
+		if (this._transition.moveTransition() !== MoveResult.CONTINUE) {
+			return MoveResult.END;
+		}
+		
+		return MoveResult.CONTINUE;
+	},
+	
+	drawBattleTransition: function() {
+		root.getGraphicsManager().enableMapClipping(false);
+		
+		this._transition.drawTransition();
+		
+		root.getGraphicsManager().enableMapClipping(true);
 	}
 }
 );

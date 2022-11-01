@@ -188,7 +188,7 @@ var BaseCombinationCollector = defineObject(BaseObject,
 			filter = UnitFilterFlag.ENEMY;
 		}
 		else if (filter & UnitFilterFlag.ENEMY) {
-			filter = UnitFilterFlag.PLAYER;
+			filter = UnitFilterFlag.PLAYER | UnitFilterFlag.ALLY;
 		}
 		else if (filter & UnitFilterFlag.ALLY) {
 			filter = UnitFilterFlag.ENEMY;
