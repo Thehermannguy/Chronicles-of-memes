@@ -91,7 +91,7 @@ var PatternType = {
 	WAIT: 1,
 	MOVE: 2,
 	CUSTOM: 100,
-	ESTIMATE:200
+	ESTIMATE: 200
 };
 
 var SkillType = {
@@ -635,7 +635,8 @@ var OverUnderType = {
 	EQUAL: 0,
 	OVER: 1,
 	UNDER: 2,
-	NONE: 3
+	NOTEQUALSTO: 3,
+	NONE: 4
 };
 
 var EffectRangeType = {

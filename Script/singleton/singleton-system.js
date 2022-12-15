@@ -1209,6 +1209,11 @@ var ClassChangeChecker = {
 				result = true;
 			}
 		}
+		else if (ou === OverUnderType.NOTEQUALSTO) {
+			if (srcValue !== destValue) {
+				result = true;
+			}
+		}
 		
 		return result;
 	}

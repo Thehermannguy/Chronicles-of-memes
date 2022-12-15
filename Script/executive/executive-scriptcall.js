@@ -209,6 +209,20 @@ function ScriptCall_GetSimulationFilterFlag(unit) {
 	return filter;
 }
 
+// Called after ScriptCall_GetSimulationFilterFlag.
+function ScriptCall_GetMoveCostArray(unit)
+{
+	var costObjectArray = SimulationCostControl.initCostObjectArray(unit);
+	
+	// If you write the following code, the cost will be duplicated without upper limit.
+	// return costObjectArray;
+	
+	// Combine costs for the same keyword and check if the limit is exceeded.
+	var combinedCostObjectArray = SimulationCostControl.combineCostObjectArray(unit, costObjectArray);
+	
+	return combinedCostObjectArray;
+}
+
 // It's called when the unit moves with an event.
 function ScriptCall_GetUnitMoveCource(unit, xGoal, yGoal)
 {

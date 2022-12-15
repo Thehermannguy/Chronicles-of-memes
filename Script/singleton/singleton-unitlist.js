@@ -444,3 +444,86 @@ var BaseBlockerRule = defineObject(BaseObject,
 	}
 }
 );
+
+var SimulationCostControl = {
+	initCostObjectArray: function(unit) {
+		var i, count, obj;
+		var costObjectArray = [];
+		var groupArray = [];
+		
+		this._configureCostRule(groupArray);
+		
+		count = groupArray.length;
+		for (i = 0; i < count; i++) {
+			obj = groupArray[i].getCostObject(unit);
+			if (obj !== null) {
+				costObjectArray.push(obj);
+			}
+		}
+		
+		return costObjectArray;
+	},
+	
+	combineCostObjectArray: function(unit, costObjectArray) {
+		var i, count, obj;
+		var lastArray = [];
+		
+		count = costObjectArray.length;
+		for (i = 0; i < count; i++) {
+			// Costs with the same key are combined into one.
+			this._combineCost(lastArray, costObjectArray[i]);
+		}
+		
+		count = lastArray.length;
+		for (i = 0; i < count; i++) {
+			obj = lastArray[i];
+			
+			// If the cost exceeds the maximum value, then assign the maximum value.
+			cost = this._getMaxCost(obj);
+			if (obj.cost > cost) {
+				obj.cost = cost;
+			}
+		}
+		
+		return lastArray;
+	},
+	
+	_combineCost: function(lastArray, obj) {
+		var i;
+		var count = lastArray.length;
+		
+		for (i = 0; i < count; i++) {
+			if (lastArray[i].key === obj.key) {
+				lastArray[i].cost += obj.cost;
+				break;
+			}
+		}
+		
+		if (i === count) {
+			lastArray.push(obj)
+		}
+	},
+	
+	_getMaxCost: function(obj) {
+		return 2;
+	},
+	
+	_configureCostRule: function(groupArray) {
+	}
+};
+
+var CostRule = {};
+
+var BaseCostRule = defineObject(BaseObject,
+{
+	getCostObject: function(unit) {
+		var obj = {};
+		
+		// The return value must always be in this format; the MapSimulator object assumes this format.
+		obj.key = '';
+		obj.cost = 1;
+		
+		return obj;
+	}
+}
+);

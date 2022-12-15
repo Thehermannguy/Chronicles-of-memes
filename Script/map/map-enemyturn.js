@@ -792,7 +792,7 @@ var CombinationManager = {
 		goalIndex = CurrentMap.getIndex(x, y);
 		blockUnitArray = [];
 		
-		if (this._getBlockUnit(unit, x, y) !== null) {
+		if (this._getBlockUnit(unit, x, y) !== null || this._isBlocked(unit, goalIndex, simulator)) {
 			// The opponent unit (if the ally, it's the enemy, if the enemy, it's the player or the ally) exists at the goal, so don't create a course.
 			// The same category unit is adjusted by createExtendCource, so don't treat.
 			moveCource = [];
@@ -807,6 +807,9 @@ var CombinationManager = {
 			if (goalIndex !== data.goalIndex) {
 				// Save because new goal was found.
 				goalIndex = data.goalIndex;
+				x = CurrentMap.getX(goalIndex);
+				y = CurrentMap.getY(goalIndex);
+				
 				// Create a course based on new goal.
 				moveCource = CourceBuilder.createExtendCource(unit, goalIndex, simulator);
 			}
@@ -1006,6 +1009,10 @@ var CombinationManager = {
 		misc.isForce = true;
 		
 		return CombinationBuilder.createApproachCombinationArray(misc);
+	},
+	
+	_isBlocked: function(unit, goalIndex, simulator) {
+		return false;
 	}
 };
 
