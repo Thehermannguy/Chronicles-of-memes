@@ -807,9 +807,6 @@ var CombinationManager = {
 			if (goalIndex !== data.goalIndex) {
 				// Save because new goal was found.
 				goalIndex = data.goalIndex;
-				x = CurrentMap.getX(goalIndex);
-				y = CurrentMap.getY(goalIndex);
-				
 				// Create a course based on new goal.
 				moveCource = CourceBuilder.createExtendCource(unit, goalIndex, simulator);
 			}
